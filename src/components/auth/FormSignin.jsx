@@ -12,6 +12,44 @@ class FormSignin extends Component {
 
     }
 
+    insertGapiScript() {
+      const script = document.createElement('script');
+      script.src="https://apis.google.com/js/platform.js"
+
+      script.onload = () => {
+        this.initializeGoogleSignIn()
+      };
+      document.body.appendChild(script)
+    }
+
+    initializeGoogleSignIn() {
+      window.gapi.load('auth2', () => {
+        window.gapi.auth2.init({
+          client_id: '205215776462-pl7bogr9ddsla4pkmqrt7p9mr09anrnk.apps.googleusercontent.com'
+        })
+        console.log('API inited');
+
+        window.gapi.load('signin2', () => {
+          const params = {
+            onsuccess: () => {
+              console.log("User has finished signin in")
+              this.onGoogleSignIn()
+            }
+          }
+
+          window.gapi.signin2.render('loginButton', params)
+        })
+      })
+    }
+
+    componentDidMount() {
+      console.log('Loading...')
+
+      this.insertGapiScript();
+
+      
+    }
+
     handleChange = (e) => {
         const key = e.target.name;
 
@@ -34,10 +72,15 @@ class FormSignin extends Component {
           })
     }
 
+    onGoogleSignIn = (googleUser) => {
+      console.log(googleUser)
+
+    }
+
 
     render() {
         return (
-          <div>
+          <div style={{display: 'flex', flexDirection: "column", alignItems: "center"}}>
                 <Form onSubmit={this.handleSubmit}>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridEmail">
@@ -57,7 +100,7 @@ class FormSignin extends Component {
           </Button>
           </Form>
 
-          <button></button>
+          <div id="loginButton" style={{margin: "10px"}} data-onsuccess={'this.onGoogleSignIn'}>Signin with Google</div>
           </div>
         )
     }

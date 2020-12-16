@@ -1,38 +1,41 @@
 import React from 'react'
 import RangeSlider from './RangeSlider'
 
- const ProductFilter = () => {
+const treeArr = ["Nordmann", "Epicea", "Nobilis", "Pungens", "Omorika"]
+const filteredTreeArr = []
+
+ const ProductFilter = (props) => {
 
     function handleChange(e) {
-        console.log(e.target.checked)
-        const value = e.target.checked ? e.target.value : ''
-        console.log(value)
+        const valueOneTree = e.target.checked ? e.target.value : e.target.value
+        if (valueOneTree) {
+            if (!filteredTreeArr.includes(valueOneTree)) {
+            filteredTreeArr.push(valueOneTree)
+            } else if (filteredTreeArr.includes(valueOneTree)) {
+               let i = filteredTreeArr.indexOf(valueOneTree)
+               filteredTreeArr.splice(i, 1)
+            }
+            
+        } 
+        
+        // console.log(filteredTreeArr)
+        props.onFilter('type', filteredTreeArr)
     }
+
+
+
     return (
         <div>
-            <RangeSlider name={"Price"} min={0} max={300} rangeMin={0} rangeMax={300} />
-            <RangeSlider name={"Height"} min={0} max={250} rangeMin={0} rangeMax={250} />
+            <RangeSlider name={"price"} min={0} max={300} rangeMin={0} rangeMax={300} onFilter={props.onFilter}/>
+            <RangeSlider name={"height"} min={0} max={350} rangeMin={0} rangeMax={250} onFilter={props.onFilter}/>
             <form>
+
+            {treeArr.map((elem, i) => (
                 <div>
-                    <label htmlFor="Nordmann">Nordmann </label>
-                    <input type="checkbox" id="Nordmann" name="Nordmann" value="Nordmann" onChange={handleChange} />
+                    <label htmlFor={elem}>{elem}</label><br/>
+                    <input type="checkbox" id={elem} name={elem} value={elem} onChange={handleChange} />
                 </div>
-                <div>
-                    <label htmlFor="Epicea">Epicea </label>
-                    <input type="checkbox" id="Epicea" name="Epicea" value="Epicea" onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="Nobilis">Nobilis </label>
-                    <input type="checkbox" id="Nobilis" name="Nobilis" value="Nobilis" onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="Omorika">Omorika </label>
-                    <input type="checkbox" id="Omorika" name="Omorika" value="Omorika" onChange={handleChange} />
-                </div>
-                <div>
-                    <label htmlFor="Pungens">Pungens </label>
-                    <input type="checkbox" id="Pungens" name="Pungens" value="Pungens" onChange={handleChange} />
-                </div>
+            ))}
             </form>
         </div>
     )

@@ -27,7 +27,7 @@ const NavMain = (props) => {
     <Nav className="mr-auto">
       <Nav.Link href="/products"><FontAwesomeIcon icon={faTree}/> Our Products</Nav.Link>
       {props.context.isLoggedIn && props.context.user.isAdmin && <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+        <NavDropdown.Item href="/all-tree">Create Tree</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
         <NavDropdown.Divider />

@@ -19,13 +19,15 @@ export default function RangeSlider(props) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    props.onFilter(props.name, newValue)
   };
 
-  console.log(props.name, value)
+  // console.log(props.name, value)
   return (
     <div className={classes.root}>
       <Typography id="range-slider" gutterBottom>
-        {props.name} Range
+        {props.name.charAt(0).toUpperCase()}{props.name.slice(1)} Range 
+        {/* first letter to uppercase  */}
       </Typography>
       <Slider
         value={value}

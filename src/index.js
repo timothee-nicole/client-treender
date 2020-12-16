@@ -7,13 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import UserProvider from './components/auth/UserProvider';
 
 ReactDOM.render(
-  <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
         <App />
       </UserProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+    </BrowserRouter>,
   document.getElementById('root')
 );
 

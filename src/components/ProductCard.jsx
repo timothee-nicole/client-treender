@@ -19,7 +19,7 @@ const treeDetails = props.tree
                 <Card.Text>
                       {treeDetails.description}
                     </Card.Text>
-                    <Card.Link href="#">Check out more about {treeDetails.name}</Card.Link>
+                    <Card.Link href={`/product/${treeDetails._id}`}>Check out more about {treeDetails.name}</Card.Link>
                 </Card.Body>
             </Card>
     )

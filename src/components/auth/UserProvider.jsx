@@ -6,6 +6,7 @@ class UserProvider extends Component {
 
     state= {
         user: null,
+        currentBasket: null,
         isLoggedIn: false,
         isLoading: true
     }
@@ -19,7 +20,19 @@ class UserProvider extends Component {
                     user: data,
                     isLoggedIn: true,
                     isLoading: false,
-                })
+                });
+                apiHandler
+                    .oneOrder(this.state.user.allOrders[0])
+                    .then((basketData) => {
+                        this.setState({
+                            currentBasket: basketData
+                        })
+                    })
+                    .catch((err) => {
+                        this.setState({
+                            currentBasket: null
+                        })
+                    })
             })
             .catch((err) => {
                 this.setState({
@@ -36,6 +49,10 @@ class UserProvider extends Component {
         })
     }
 
+    setBasket = (currentBasket) => {
+        this.setState({currentBasket: currentBasket})
+    }
+
     removeUser = () => {
         this.setState({
             user: null, isLoggedIn: false
@@ -45,8 +62,10 @@ class UserProvider extends Component {
     render() {
         const authValues = {
             user: this.state.user,
+            currentBasket: this.state.currentBasket,
             isLoggedIn: this.state.isLoggedIn,
             isLoading: this.state.isLoading,
+            setBasket: this.setBasket,
             setUser: this.setUser,
             removeUser: this.removeUser
         }
