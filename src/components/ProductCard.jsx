@@ -4,7 +4,7 @@ import {Card, ListGroupItem, ListGroup} from 'react-bootstrap'
 const ProductCard = (props) => {
 const treeDetails = props.tree
     return (
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '18rem', margin: "10px" }}>
                 <Card.Img variant="top" src={treeDetails.picture} />
                 <Card.Body>
                     <Card.Title>{treeDetails.name}, {treeDetails.age}y.o.</Card.Title>

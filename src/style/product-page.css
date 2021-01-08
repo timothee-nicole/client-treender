@@ -1,0 +1,12 @@
+.hidden {
+    visibility: hidden;
+    height: 0px;
+    width: 0;
+}
+.visible {
+    visibility: visible;
+}
+
+.product-page {
+    display: flex;
+}

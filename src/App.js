@@ -1,4 +1,5 @@
 import './App.css';
+import './App.scss';
 import { Route, Switch } from 'react-router-dom'
 import Signup from './pages/Signup';
 import FormSignin from './components/auth/FormSignin';

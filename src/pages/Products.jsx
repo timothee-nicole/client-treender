@@ -41,7 +41,7 @@ const Products = () => {
     }
     
     return (
-        <>
+        <div className="product-page">
         <ProductFilter onFilter={handleValues} />
         <div style={{display: 'flex', flexWrap:"wrap"}}> 
             {treeArrwithFilter.length ? treeArrwithFilter.map((obj, i) => {
@@ -51,7 +51,7 @@ const Products = () => {
             }) : <div> Content is loading</div>}
             {}
         </div>
-        </>
+        </div>
     )
 }
 

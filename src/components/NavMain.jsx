@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle, faShoppingCart, faTree, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import withUser from './auth/withUser'
 import apiHandler from '../api/apihandler'
+import "../style/nav.css"
 
 const NavMain = (props) => {
   console.log(props.context.isLoggedIn)
@@ -20,7 +21,7 @@ const NavMain = (props) => {
 
     return (
         <div>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar collapseOnSelect expand="lg" bg="primary" variant="light">
   <Navbar.Brand href="#home"><img src="./images/logo.png" alt="logo" style={{width: '50px'}} /></Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
