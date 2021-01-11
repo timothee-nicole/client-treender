@@ -11,11 +11,7 @@
     "@material-ui/core": "^4.11.2",
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
-<<<<<<< HEAD
     "@testing-library/user-event": "^12.5.0",
-=======
-    "@testing-library/user-event": "^12.6.0",
->>>>>>> 9ef5c64c279fc0055b0ae4b589ca42c6ead3bfb1
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "rc-year-calendar": "^1.0.2",
@@ -25,6 +21,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "sass": "^1.32.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

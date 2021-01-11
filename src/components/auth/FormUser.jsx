@@ -17,7 +17,11 @@ class FormUser extends Component {
       street: "",
     },
     agree: false,
+    state: { open: false }
   };
+
+  open = () => this.setState({ open: true })
+  close = () => this.setState({ open: false })
 
   handleChange = (e) => {
     const key = e.target.name;
@@ -162,9 +166,10 @@ class FormUser extends Component {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button onClick={this.open} variant="primary" type="submit">
           Submit
         </Button>
+      
         <h5>
           Already have an account?  <Button variant="outline-primary"><a href="/signin">Sign in</a></Button>
         </h5>
