@@ -33,6 +33,7 @@ const FormTree = (props) => {
               return tree = data
             })
             setLoading(isLoading => isLoading = false)
+
           })
           .catch(err => console.log(err))
       }
@@ -52,7 +53,7 @@ const FormTree = (props) => {
             .createTree(fd)
             .then((data) => {
                 console.log(data)
-                props.history.push('/')
+                props.history.push('/all-tree')
             })
             .catch(err => console.log(err))
         }
