@@ -1,5 +1,4 @@
 import React from 'react'
-import { propTypes } from 'react-bootstrap/esm/Image'
 import FormTree from '../components/FormTree'
 
 const EditTree = (props) => {

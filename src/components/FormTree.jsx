@@ -37,9 +37,9 @@ const FormTree = (props) => {
           })
           .catch(err => console.log(err))
       }
-      return () => {
+      // return () => {
         
-      }
+      // }
     }, [tree])
 
     function handleSubmit(e) {

@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle, faShoppingCart, faTree, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import withUser from './auth/withUser'
 import apiHandler from '../api/apihandler'
-import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
+// import Badge from '@material-ui/core/Badge';
+// import { withStyles } from '@material-ui/core/styles';
+// import IconButton from '@material-ui/core/IconButton';
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import "../style/nav.css"
 
@@ -22,14 +22,14 @@ const NavMain = (props) => {
       .catch((err) => console.log(err))
   }
 
-  const StyledBadge = withStyles((theme) => ({
-    badge: {
-      right: -3,
-      top: 13,
-      border: `2px solid ${theme.palette.background.paper}`,
-      padding: '0 4px',
-    },
-  }))(Badge);
+  // const StyledBadge = withStyles((theme) => ({
+  //   badge: {
+  //     right: -3,
+  //     top: 13,
+  //     border: `2px solid ${theme.palette.background.paper}`,
+  //     padding: '0 4px',
+  //   },
+  // }))(Badge);
 
 
     return (
