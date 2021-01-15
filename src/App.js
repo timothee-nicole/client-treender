@@ -10,6 +10,7 @@ import CreateTree from './pages/CreateTree';
 import AllTrees from './pages/AllTrees';
 import EditTree from './pages/EditTree';
 import OneTree from './pages/OneTree';
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <ProtectedAdminRoute exact path='/create-tree' component={CreateTree} />
       <ProtectedAdminRoute exact path='/:id/edit' component={EditTree} />
       <ProtectedAdminRoute exact path='/all-tree' component={AllTrees} />
+      <ProtectedAdminRoute exact path='/profile' component={Profile} />
     </Switch>
     </div>
   );
