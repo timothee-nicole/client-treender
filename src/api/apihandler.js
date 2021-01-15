@@ -112,5 +112,12 @@ export default {
             .patch(`/api/user/edit`, userInfo)
             .then(res => res.data)
             .catch(errorHandler)
+    },
+    
+    getAllUsers() {
+        return service
+            .get('/api/user/all')
+            .then(res => res.data)
+            .catch(errorHandler)
     }
 }

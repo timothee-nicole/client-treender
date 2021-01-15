@@ -30,12 +30,12 @@ const NavMain = (props) => {
   //     padding: '0 4px',
   //   },
   // }))(Badge);
-
+  console.log(props)
 
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" bg="primary" variant="light">
-  <Navbar.Brand href="#home"><img src="./images/logo.png" alt="logo" style={{width: '50px'}} /></Navbar.Brand>
+  <Navbar.Brand href="#home"><img src="../images/logo.png" alt="logo" style={{width: '50px'}} /></Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className="mr-auto">
@@ -49,7 +49,11 @@ const NavMain = (props) => {
       </NavDropdown>}
     </Nav>
     <Nav>
-      <Nav.Link href="/signin"><FontAwesomeIcon icon={faUserCircle}/> Account</Nav.Link>
+      {props.context.user ?
+      <Nav.Link href="/profile"><FontAwesomeIcon icon={faUserCircle}/> Profile</Nav.Link>
+      :
+      <Nav.Link href="/account"><FontAwesomeIcon icon={faUserCircle}/> Account</Nav.Link>
+      }
       <Nav.Link eventKey={2} href="#memes">
       <FontAwesomeIcon icon={faShoppingCart}/> Cart
       </Nav.Link>
