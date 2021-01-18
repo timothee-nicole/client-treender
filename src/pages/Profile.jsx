@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../components/auth/UserContext";
+import apihandler from "../api/apihandler";
 
 export class Profile extends Component {
   static contextType = UserContext;
@@ -16,7 +17,7 @@ export class Profile extends Component {
   }
 
   handleChange = (e) => {
-    console.log(e.target.name);
+    // console.log(e.target.name);
     let newUpdatedValues = { ...this.state.updatedValues };
     newUpdatedValues[e.target.name] = e.target.value;
     this.setState({ updatedValues: newUpdatedValues });
@@ -36,8 +37,11 @@ export class Profile extends Component {
       ? (isNewUpdating[elem] = true)
       : (isNewUpdating[elem] = false);
     this.setState({ isUpdating: isNewUpdating });
-    // let userCopy = { ...this.context.user };
     this.context.setUser(this.state.updatedValues);
+    apihandler
+      .editUser(this.state.updatedValues)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   render() {

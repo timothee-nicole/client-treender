@@ -92,6 +92,13 @@ export default {
             .catch(errorHandler)
     },
 
+    getOneOrder(id) {
+        return service
+        .get('/api/order/one-order/' + id)
+        .then(res => res.data)
+        .catch(errorHandler)
+    },
+
     oneOrder(id) {
         return service
             .get('/api/order/' + id)
@@ -101,7 +108,7 @@ export default {
 
     editOrder(id, orderInfo) {
         return service
-            .patch('/api/order/' + id + 'edit', orderInfo)
+            .patch('/api/order/' + id + '/edit', orderInfo)
             .then(res => res.data)
             .catch(errorHandler)
     },
