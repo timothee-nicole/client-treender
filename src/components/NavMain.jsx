@@ -1,25 +1,28 @@
-import React from 'react'
-import {Nav, Navbar, NavDropdown } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle, faShoppingCart, faTree, faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import withUser from './auth/withUser'
-import apiHandler from '../api/apihandler'
+import React from "react";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserCircle,
+  faShoppingCart,
+  faTree,
+  faPowerOff,
+} from "@fortawesome/free-solid-svg-icons";
+import withUser from "./auth/withUser";
+import apiHandler from "../api/apihandler";
 // import Badge from '@material-ui/core/Badge';
 // import { withStyles } from '@material-ui/core/styles';
 // import IconButton from '@material-ui/core/IconButton';
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import "../style/nav.css"
+import "../style/nav.css";
 
 const NavMain = (props) => {
-  console.log(props.context.isLoggedIn)
+  console.log(props.context.isLoggedIn);
 
-  function handleLogout () {
+  function handleLogout() {
     apiHandler
       .logOut()
-      .then(
-        props.context.removeUser()
-      )
-      .catch((err) => console.log(err))
+      .then(props.context.removeUser())
+      .catch((err) => console.log(err));
   }
 
   // const StyledBadge = withStyles((theme) => ({
@@ -58,14 +61,16 @@ const NavMain = (props) => {
       <FontAwesomeIcon icon={faShoppingCart}/> Cart
       </Nav.Link>
 
-      {props.context.isLoggedIn && <Nav.Link onClick={handleLogout} style={{color: 'red'}}>
-      <FontAwesomeIcon icon={faPowerOff} /> Logout
-      </Nav.Link>}
-    </Nav>
-  </Navbar.Collapse>
-</Navbar>
-        </div>
-    )
-}
+            {props.context.isLoggedIn && (
+              <Nav.Link onClick={handleLogout} style={{ color: "red" }}>
+                <FontAwesomeIcon icon={faPowerOff} /> Logout
+              </Nav.Link>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
+  );
+};
 
-export default withUser(NavMain)
+export default withUser(NavMain);
