@@ -1,5 +1,6 @@
 import React from 'react'
 import {Card, ListGroupItem, ListGroup} from 'react-bootstrap'
+import {NavLink} from 'react-router-dom'
 
 const ProductCard = (props) => {
 const treeDetails = props.tree
@@ -19,7 +20,11 @@ const treeDetails = props.tree
                 <Card.Text>
                       {treeDetails.description}
                     </Card.Text>
-                    <Card.Link href={`/product/${treeDetails._id}`}>Check out more about {treeDetails.name}</Card.Link>
+                    <Card.Link>
+                     <NavLink exact to={`/product/${treeDetails._id}`} > 
+                    Check out more about {treeDetails.name}
+                    </NavLink>
+                    </Card.Link>
                 </Card.Body>
             </Card>
     )
