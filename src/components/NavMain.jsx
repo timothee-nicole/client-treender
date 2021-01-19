@@ -16,13 +16,10 @@ import apiHandler from "../api/apihandler";
 import "../style/nav.css";
 
 const NavMain = (props) => {
-  console.log(props.context.isLoggedIn);
+  // console.log(props.context.isLoggedIn);
 
   function handleLogout() {
-    apiHandler
-      .logOut()
-      .then(props.context.removeUser())
-      .catch((err) => console.log(err));
+    apiHandler.logOut().then(props.context.removeUser()).catch();
   }
 
   // const StyledBadge = withStyles((theme) => ({
@@ -33,33 +30,51 @@ const NavMain = (props) => {
   //     padding: '0 4px',
   //   },
   // }))(Badge);
-  console.log(props)
+  // console.log(props);
 
-    return (
-        <div>
-            <Navbar collapseOnSelect expand="lg" bg="primary" variant="light">
-  <Navbar.Brand href="#home"><img src="../images/logo.png" alt="logo" style={{width: '50px'}} /></Navbar.Brand>
-  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  <Navbar.Collapse id="responsive-navbar-nav">
-    <Nav className="mr-auto">
-      <Nav.Link href="/products"><FontAwesomeIcon icon={faTree}/> Our Products</Nav.Link>
-      {props.context.isLoggedIn && props.context.user.isAdmin && <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-        <NavDropdown.Item href="/all-tree">Trees Admin</NavDropdown.Item>
-        <NavDropdown.Item href="/all-orders">Orders Admins</NavDropdown.Item>
-        <NavDropdown.Item href="/all-users">Users Admins</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-      </NavDropdown>}
-    </Nav>
-    <Nav>
-      {props.context.user ?
-      <Nav.Link href="/profile"><FontAwesomeIcon icon={faUserCircle}/> Profile</Nav.Link>
-      :
-      <Nav.Link href="/account"><FontAwesomeIcon icon={faUserCircle}/> Account</Nav.Link>
-      }
-      <Nav.Link eventKey={2} href="#memes">
-      <FontAwesomeIcon icon={faShoppingCart}/> Cart
-      </Nav.Link>
+  return (
+    <div>
+      <Navbar collapseOnSelect expand="lg" bg="primary" variant="light">
+        <Navbar.Brand href="#home">
+          <img src="../images/logo.png" alt="logo" style={{ width: "50px" }} />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/products">
+              <FontAwesomeIcon icon={faTree} /> Our Products
+            </Nav.Link>
+            {props.context.isLoggedIn && props.context.user.isAdmin && (
+              <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+                <NavDropdown.Item href="/all-tree">
+                  Trees Admin
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/all-orders">
+                  Orders Admins
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/all-users">
+                  Users Admins
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">
+                  Separated link
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
+          </Nav>
+          <Nav>
+            {props.context.user ? (
+              <Nav.Link href="/profile">
+                <FontAwesomeIcon icon={faUserCircle} /> Profile
+              </Nav.Link>
+            ) : (
+              <Nav.Link href="/account">
+                <FontAwesomeIcon icon={faUserCircle} /> Account
+              </Nav.Link>
+            )}
+            <Nav.Link eventKey={2} href="#memes">
+              <FontAwesomeIcon icon={faShoppingCart} /> Cart
+            </Nav.Link>
 
             {props.context.isLoggedIn && (
               <Nav.Link onClick={handleLogout} style={{ color: "red" }}>

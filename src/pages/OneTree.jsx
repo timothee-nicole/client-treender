@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// import context from "react-bootstrap/esm/AccordionContext";
 import apihandler from "../api/apihandler";
 import withUser from "../components/auth/withUser";
 // import { Button, Icon, Image, Item, Label } from "semantic-ui-react";
@@ -13,7 +14,6 @@ const OneTree = (props) => {
       apihandler
         .getOneTree(`/api/tree/${props.match.params.id}`)
         .then((data) => {
-          //   console.log('toto')
           setTree((tree) => {
             return (tree = data);
           });
@@ -22,66 +22,49 @@ const OneTree = (props) => {
         .catch((err) => console.log(err));
     }
   }, [isLoading, props.match.params.id, tree]);
-  // console.log(tree)
 
   let currentBasket = props.context.currentBasket;
 
   function handleOrder() {
-    if (!currentBasket && props.context.user) {
-      apihandler
-        .createOrder({
-          basket: [tree._id],
-          createdBy: props.context.user._id,
-          totalPrice: tree.price,
-        })
-        .then((data) => {
-          props.context.setBasket(data);
-          props.context.setUser(props.context.user);
-          console.log(data);
-        })
-        .catch((err) => console.log(err));
-    } else if (!props.context.user && !currentBasket) {
-      console.log("You Shall Not Pass");
-      // create order withoutUser
-    } else if (!currentBasket.isCompleted) {
-      console.log("You Shall Not Pass");
-      currentBasket.basket.push(tree._id);
-      // apihandler
-      // .editOrder(currentBasket)
-      // .then((data) => {
-      props.context.setBasket(currentBasket);
-      // })
-      // .catch((err) => console.log(err))
-      // Edit Order
-    } else if (currentBasket.isCompleted) {
-      console.log("You Shall Not Pass");
-
-      // create new Order
+    if (props.context.user) {
+      if (!props.context.user.allOrders.length) {
+        console.log(props.context.user.allOrders);
+        apihandler
+          .createOrder({
+            basket: [tree._id],
+            createdBy: props.context.user._id,
+            totalPrice: tree.price,
+          })
+          .then((res) => {
+            console.log(res);
+            let newUser = { ...props.context.user };
+            newUser.allOrders.push(res._id);
+            apihandler
+              .editUser(newUser)
+              .then((res) => props.context.setUser(res))
+              .catch((error) => console.log(error));
+          })
+          .catch((error) => console.log(error));
+      } else if (props.context.user.allOrders[0]) {
+        let copyOfLastBasket = { ...props.context.user.allOrders[0] };
+        console.log(copyOfLastBasket);
+        let ternary = !copyOfLastBasket.basket.includes(tree._id)
+          ? copyOfLastBasket.basket.push(tree._id)
+          : "";
+        copyOfLastBasket.totalPrice += tree.price;
+        apihandler
+          .editOrder(props.context.user.allOrders[0]._id, copyOfLastBasket)
+          .then()
+          .catch((error) => console.log(error));
+      }
+      // else if (props.context.user.allOrders[0].isCompleted) {
+      // }
     }
-    console.log(currentBasket, tree);
   }
 
+  console.log(props.context);
   return (
     <div>
-      {/* //   <Item.Group divided>
-    //     <Item>
-    //       <Item.Image src={tree.picture} alt={tree.name} />
-    //       <Item.Content>
-    //         <Item.Header as="a">{tree.name}</Item.Header>
-    //         <Item.Meta>
-    //           <span className="cinema">
-    //             {tree.height} | {tree.type} | {tree.age}yo
-    //           </span>
-    //         </Item.Meta>
-    //         <Item.Description>{tree.description}</Item.Description>
-    //         <Item.Extra>
-    //           <Button primary floated="right" onClick={handleOrder}>
-    //             Add {tree.name} to cart
-    //             <Icon name="right chevron" />
-    //           </Button>
-    //         </Item.Extra>
-    //       </Item.Content>
-    //     </Item> */}{" "}
       <div style={{ border: "3px solid black", display: "flex" }}>
         <img src={tree.picture} alt={tree.name} />{" "}
         <div>
@@ -91,7 +74,11 @@ const OneTree = (props) => {
           </h3>
           <p>{tree.description}</p>
           <h2>{tree.price} €</h2>
-          <button onClick={handleOrder}>Add {tree.name} to cart</button>{" "}
+          {props.context.user ? (
+            <button onClick={handleOrder}>Add {tree.name} to cart</button>
+          ) : (
+            <a href="/account">To create an order, please Sign in first</a>
+          )}
           {/* (1) !user => create order withoutUser
             //             (2) user.Allorder[0] (isCompleted) => create new order with user
             //             (3) user.allOrder[0] !isComleted => edit order and add this tree to the order
@@ -101,7 +88,6 @@ const OneTree = (props) => {
           {/* //{" "} */}
         </div>{" "}
       </div>
-      {/* </Item.Group> */}
     </div>
   );
 };
