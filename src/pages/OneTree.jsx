@@ -23,12 +23,12 @@ const OneTree = (props) => {
     }
   }, [isLoading, props.match.params.id, tree]);
 
-  let currentBasket = props.context.currentBasket;
-
   function handleOrder() {
     if (props.context.user) {
-      if (!props.context.user.allOrders.length) {
-        console.log(props.context.user.allOrders);
+      if (
+        !props.context.user.allOrders.length ||
+        props.context.user.allOrders[0].isCompleted
+      ) {
         apihandler
           .createOrder({
             basket: [tree._id],
@@ -36,33 +36,43 @@ const OneTree = (props) => {
             totalPrice: tree.price,
           })
           .then((res) => {
-            console.log(res);
+            props.context.setBasket(res);
             let newUser = { ...props.context.user };
             newUser.allOrders.push(res._id);
             apihandler
               .editUser(newUser)
-              .then((res) => props.context.setUser(res))
+              .then((res) => props.context.setUser(newUser))
               .catch((error) => console.log(error));
           })
           .catch((error) => console.log(error));
-      } else if (props.context.user.allOrders[0]) {
+        console.log(props.context.user.allOrders);
+      } else if (
+        props.context.user.allOrders[0] &&
+        !props.context.user.allOrders[0].isCompleted
+      ) {
         let copyOfLastBasket = { ...props.context.user.allOrders[0] };
         console.log(copyOfLastBasket);
-        let ternary = !copyOfLastBasket.basket.includes(tree._id)
-          ? copyOfLastBasket.basket.push(tree._id)
-          : "";
-        copyOfLastBasket.totalPrice += tree.price;
+        if (!copyOfLastBasket.basket.includes(tree._id)) {
+          copyOfLastBasket.basket.push(tree._id);
+          copyOfLastBasket.totalPrice += tree.price;
+        }
         apihandler
           .editOrder(props.context.user.allOrders[0]._id, copyOfLastBasket)
-          .then()
+          .then((res) => props.context.setBasket(res))
           .catch((error) => console.log(error));
       }
-      // else if (props.context.user.allOrders[0].isCompleted) {
-      // }
     }
+    // console.log(
+    //   1,
+    //   !props.context.user.allOrders.length,
+    //   2,
+    //   !props.context.user.allOrders[0].isCompleted,
+    //   3,
+    //   props.context.user.allOrders[0].isCompleted
+    // );
   }
 
-  console.log(props.context);
+  // console.log(props.context);
   return (
     <div>
       <div style={{ border: "3px solid black", display: "flex" }}>

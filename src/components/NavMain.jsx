@@ -9,28 +9,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import withUser from "./auth/withUser";
 import apiHandler from "../api/apihandler";
-// import Badge from '@material-ui/core/Badge';
-// import { withStyles } from '@material-ui/core/styles';
-// import IconButton from '@material-ui/core/IconButton';
-// import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Badge from "@material-ui/core/Badge";
+import { withStyles } from "@material-ui/core/styles";
 import "../style/nav.css";
 
-const NavMain = (props) => {
-  // console.log(props.context.isLoggedIn);
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: -2,
+    border: `2px solid blue`,
+    padding: "0 4px",
+  },
+}))(Badge);
 
+const NavMain = (props) => {
   function handleLogout() {
     apiHandler.logOut().then(props.context.removeUser()).catch();
   }
-
-  // const StyledBadge = withStyles((theme) => ({
-  //   badge: {
-  //     right: -3,
-  //     top: 13,
-  //     border: `2px solid ${theme.palette.background.paper}`,
-  //     padding: '0 4px',
-  //   },
-  // }))(Badge);
-  // console.log(props);
 
   return (
     <div>
@@ -72,9 +67,26 @@ const NavMain = (props) => {
                 <FontAwesomeIcon icon={faUserCircle} /> Account
               </Nav.Link>
             )}
-            <Nav.Link eventKey={2} href="#memes">
-              <FontAwesomeIcon icon={faShoppingCart} /> Cart
-            </Nav.Link>
+
+            {props.context.user && !props.context.user.allOrders[0] ? (
+              <Nav.Link eventKey={2} href="/cart">
+                <FontAwesomeIcon icon={faShoppingCart} /> Cart
+              </Nav.Link>
+            ) : (
+              <Nav.Link eventKey={2} href="/cart">
+                <StyledBadge
+                  badgeContent={
+                    props.context.user &&
+                    props.context.user.allOrders[0].basket &&
+                    Number(props.context.user.allOrders[0].basket.length)
+                  }
+                  color="secondary"
+                >
+                  <FontAwesomeIcon icon={faShoppingCart} />{" "}
+                </StyledBadge>
+                &nbsp;
+              </Nav.Link>
+            )}
 
             {props.context.isLoggedIn && (
               <Nav.Link onClick={handleLogout} style={{ color: "red" }}>

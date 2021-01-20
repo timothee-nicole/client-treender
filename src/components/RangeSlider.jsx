@@ -36,7 +36,7 @@ export default function RangeSlider(props) {
     setClick(!clicked)
   }
 
-  console.log(clicked)
+  // console.log(clicked)
   return (
     <div className={classes.root}>
       <Typography id="range-slider" gutterBottom onClick={handleClick} style={{cursor: "pointer"}}>

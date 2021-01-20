@@ -11,6 +11,7 @@ import OneTree from "./pages/OneTree";
 import Account from "./pages/Account";
 import AllUsers from "./pages/AllUsers";
 import Profile from "./pages/Profile";
+import Cart from "./pages/Cart.jsx"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <ProtectedAdminRoute exact path="/all-tree" component={AllTrees} />
         <ProtectedAdminRoute exact path="/all-users" component={AllUsers} />
         <ProtectedAdminRoute exact path="/profile" component={Profile} />
+        <ProtectedAdminRoute exact path="/cart" component={Cart} />
       </Switch>
     </div>
   );
