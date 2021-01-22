@@ -1,12 +1,12 @@
-import React from 'react'
+// import React from 'react'
 
-const AllUsers = () => {
-    const [allUsers, setAllUsers] = React.useState(true) 
-    return (
-        <div>
+// const AllUsers = () => {
+//     const [allUsers, setAllUsers] = React.useState(true) 
+//     return (
+//         <div>
             
-        </div>
-    )
-}
+//         </div>
+//     )
+// }
 
-export default AllUsers
+// export default AllUsers

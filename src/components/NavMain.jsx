@@ -23,9 +23,26 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const NavMain = (props) => {
+  // const [basketQuantity, setBasketQuantity] = useState(null);
+
   function handleLogout() {
     apiHandler.logOut().then(props.context.removeUser()).catch();
   }
+
+  // useEffect(() => {
+  //   if (
+  //     basketQuantity === null &&
+  //     props.context.user &&
+  //     props.context.user.allOrders[0] 
+  //   ) {
+  //     apiHandler
+  //       .oneOrder(props.context.user.allOrders[0]._id)
+  //       .then((res) => console.log(res))
+  //       .catch((error) => console.log(error));
+  //   }
+  // }, [basketQuantity]);
+
+  console.log("FROM NAVMAIN", props.context.user);
 
   return (
     <div>
@@ -76,9 +93,9 @@ const NavMain = (props) => {
               <Nav.Link eventKey={2} href="/cart">
                 <StyledBadge
                   badgeContent={
-                    props.context.user &&
-                    props.context.user.allOrders[0].basket &&
-                    Number(props.context.user.allOrders[0].basket.length)
+                    props.context.user && props.context.user.allOrders[0].basket
+                      ? props.context.user.allOrders[0].basket.length
+                      : 0
                   }
                   color="secondary"
                 >
