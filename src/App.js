@@ -25,7 +25,7 @@ function App() {
         <ProtectedAdminRoute exact path="/:id/edit" component={EditTree} />
         <ProtectedAdminRoute exact path="/all-tree" component={AllTrees} />
         <ProtectedAdminRoute exact path="/all-users" component={AllUsers} />
-        <ProtectedAdminRoute exact path="/profile" component={Profile} />
+        <Route exact path="/profile" component={Profile} />
         <ProtectedAdminRoute exact path="/cart" component={Cart} />
       </Switch>
     </div>

@@ -42,7 +42,7 @@ const NavMain = (props) => {
   //   }
   // }, [basketQuantity]);
 
-  console.log("FROM NAVMAIN", props.context.user);
+  // console.log("FROM NAVMAIN", props.context.user);
 
   return (
     <div>

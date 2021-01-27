@@ -54,46 +54,47 @@ export class Profile extends Component {
         <h1>Profile Page</h1>
         <Table striped bordered hover size="sm">
           <tbody>
-            {Object.keys(this.context.user).map((elem) =>
-              // If elem is equal to this, then don't display this on our profile edit page.
-              elem === "isAdmin" ||
-              elem === "agree" ||
-              elem === "_id" ||
-              elem === "profilePicture" ||
-              elem === "__v" ||
-              elem === "address" ||
-              elem === "allOrders" ||
-              elem === "isNL" ? (
-                ""
-              ) : (
-                <tr>
-                  <td>{elem}</td>
-                  <td>
+            {this.context.user &&
+              Object.keys(this.context.user).map((elem) =>
+                // If elem is equal to this, then don't display this on our profile edit page.
+                elem === "isAdmin" ||
+                elem === "agree" ||
+                elem === "_id" ||
+                elem === "profilePicture" ||
+                elem === "__v" ||
+                elem === "address" ||
+                elem === "allOrders" ||
+                elem === "isNL" ? (
+                  ""
+                ) : (
+                  <tr>
+                    <td>{elem}</td>
+                    <td>
+                      {this.state.isUpdating[elem] ? (
+                        <form>
+                          <input
+                            name={elem}
+                            type="text"
+                            value={this.state.updatedValues[elem]}
+                            onChange={this.handleChange}
+                          />
+                        </form>
+                      ) : (
+                        `${this.state.updatedValues[elem]}`
+                      )}
+                    </td>
                     {this.state.isUpdating[elem] ? (
-                      <form>
-                        <input
-                          name={elem}
-                          type="text"
-                          value={this.state.updatedValues[elem]}
-                          onChange={this.handleChange}
-                        />
-                      </form>
+                      <td onClick={() => this.handleConfirm(elem)}>
+                        <FontAwesomeIcon icon={faCheckCircle} />
+                      </td>
                     ) : (
-                      `${this.state.updatedValues[elem]}`
+                      <td onClick={() => this.handleEdit(elem)}>
+                        <FontAwesomeIcon icon={faEdit} />
+                      </td>
                     )}
-                  </td>
-                  {this.state.isUpdating[elem] ? (
-                    <td onClick={() => this.handleConfirm(elem)}>
-                      <FontAwesomeIcon icon={faCheckCircle} />
-                    </td>
-                  ) : (
-                    <td onClick={() => this.handleEdit(elem)}>
-                      <FontAwesomeIcon icon={faEdit} />
-                    </td>
-                  )}
-                </tr>
-              )
-            )}
+                  </tr>
+                )
+              )}
           </tbody>
         </Table>
       </div>
