@@ -1,6 +1,8 @@
 import React from 'react'
 import FormTree from '../components/FormTree'
 
+// Page through which we will render the CREATE form component
+
 const EditTree = (props) => {
     return (
         <div>

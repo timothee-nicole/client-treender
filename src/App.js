@@ -11,7 +11,7 @@ import OneTree from "./pages/OneTree";
 import Account from "./pages/Account";
 import AllUsers from "./pages/AllUsers";
 import Profile from "./pages/Profile";
-import Cart from "./pages/Cart.jsx"
+import Cart from "./pages/Cart.jsx";
 
 function App() {
   return (

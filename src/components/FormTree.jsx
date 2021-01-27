@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import apihandler from "../api/apihandler";
 import { withRouter } from "react-router-dom";
 
+// Array list of our types of trees
 const treeArr = ["Nordmann", "Epicea", "Nobilis", "Pungens", "Omorika"];
 
 const FormTree = (props) => {
@@ -14,30 +15,26 @@ const FormTree = (props) => {
   const newTree = { ...tree };
 
   function handleChange(e) {
-    // console.log(e.target.value, e.target.name)
     const value = e.target.type === "file" ? e.target.files[0] : e.target.value;
     const key = e.target.name;
-    newTree[`${key}`] = value;
+    newTree[key] = value;
     setTree((tree) => (tree = newTree));
   }
 
-  useEffect(
-    () => {
-      if (isLoading && props.action === "edit") {
-        apihandler
-          .getOneTree(`/api/tree/${props.id}`)
-          .then((data) => {
-            console.log("toto");
-            setTree((tree) => {
-              return (tree = data);
-            });
-            setLoading((isLoading) => (isLoading = false));
-          })
-          .catch((err) => console.log(err));
-      }
+  useEffect(() => {
+    if (isLoading && props.action === "edit") {
+      apihandler
+        .getOneTree(`/api/tree/${props.id}`)
+        .then((data) => {
+          console.log("toto");
+          setTree((tree) => {
+            return (tree = data);
+          });
+          setLoading((isLoading) => (isLoading = false));
+        })
+        .catch((err) => console.log(err));
     }
-    // , [tree]
-  );
+  });
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -60,7 +57,7 @@ const FormTree = (props) => {
       });
     }
   }
-  // console.log(tree)
+
   return (
     <>
       {" "}

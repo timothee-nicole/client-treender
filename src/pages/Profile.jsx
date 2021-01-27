@@ -5,6 +5,10 @@ import { faEdit, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../components/auth/UserContext";
 import apihandler from "../api/apihandler";
 
+// Profile page to allow user to change certain lines of data in his/her account
+// Instead of using the same form for CREATE and rendering it with user data in the componentDidMount(), we decided to
+// a table on which each line could be rendered dynamically and the user information was more accessible to READ/EDIT.
+
 export class Profile extends Component {
   static contextType = UserContext;
   state = {
@@ -17,12 +21,12 @@ export class Profile extends Component {
   }
 
   handleChange = (e) => {
-    // console.log(e.target.name);
     let newUpdatedValues = { ...this.state.updatedValues };
     newUpdatedValues[e.target.name] = e.target.value;
     this.setState({ updatedValues: newUpdatedValues });
   };
 
+  // FUNCTION
   handleEdit = (elem) => {
     let isNewUpdating = { ...this.state.isUpdating };
     !isNewUpdating[elem]
@@ -45,15 +49,13 @@ export class Profile extends Component {
   };
 
   render() {
-    // console.log(this.context.user);
-    // console.log(this.state.updatedValues);
-
     return (
       <div>
         <h1>Profile Page</h1>
         <Table striped bordered hover size="sm">
           <tbody>
             {Object.keys(this.context.user).map((elem) =>
+              // If elem is equal to this, then don't display this on our profile edit page.
               elem === "isAdmin" ||
               elem === "agree" ||
               elem === "_id" ||

@@ -17,11 +17,8 @@ class FormUser extends Component {
       street: "",
     },
     agree: false,
-    // state: { open: false }
   };
 
-  // open = () => this.setState({ open: true })
-  // close = () => this.setState({ open: false })
 
   handleChange = (e) => {
     const key = e.target.name;
@@ -54,7 +51,6 @@ class FormUser extends Component {
   };
 
   render() {
-    // console.log(this.state)
     return (
       <Form onSubmit={this.handleSubmit} style={{ margin: "2%" }}>
         <Form.Row>
