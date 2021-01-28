@@ -5,6 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+// This component renders our 3 filter criteria
+// 1. THE PRICE RANGE
+// 2. THE HEIGHT RANGE
+// 3. THE SPECIES OF TREE SELECTED
 
 const treeArr = ["Nordmann", "Epicea", "Nobilis", "Pungens", "Omorika"]
 const filteredTreeArr = []

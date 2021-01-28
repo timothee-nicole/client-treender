@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-// import context from "react-bootstrap/esm/AccordionContext";
 import apihandler from "../api/apihandler";
 import withUser from "../components/auth/withUser";
-// import { Button, Icon, Image, Item, Label } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 // import Calendar from 'rc-year-calendar'; /!\ NE PAS SUPPRIMER /!\
+
+// This component renders the single view page of a selected tree
+// This view shows more information about the tree that is not visible on products page card.
 
 const OneTree = (props) => {
   const [tree, setTree] = useState({});
   const [isLoading, setLoading] = useState(true);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     if (isLoading) {
+      // GET selected tree details by calling API Handler and then renders data
       apihandler
         .getOneTree(`/api/tree/${props.match.params.id}`)
         .then((data) => {
@@ -23,46 +29,52 @@ const OneTree = (props) => {
     }
   }, [isLoading, props.match.params.id, tree]);
 
-  let currentBasket = props.context.currentBasket;
+  // DEPENDING ON IF THIS IS THE FIRST ITEM TO BE ADDED TO CART, WE EITHER CREATE A NEW ORDER AND ADD THIS ITEM TO IT.
+  // OR WE EDIT A CURRENT CART BY ADDING THIS ITEM TO IT.
 
-  function handleOrder() {
-    if (props.context.user) {
-      if (!props.context.user.allOrders.length) {
-        console.log(props.context.user.allOrders);
+  // CREATING A NEW ORDER
+  function createOrder() {
+    setAddedToCart((elem) => !elem);
+    // Using apiHandler to create a new order in the DB
+    apihandler
+      .createOrder({
+        basket: [tree._id],
+        createdBy: props.context.user._id,
+        totalPrice: tree.price,
+      })
+      .then((res) => {
+        props.context.setBasket(res);
+        let newUser = { ...props.context.user };
+        newUser.allOrders.push(res._id);
+        // After creation of order in the DB, we update user in DB
         apihandler
-          .createOrder({
-            basket: [tree._id],
-            createdBy: props.context.user._id,
-            totalPrice: tree.price,
-          })
+          .editUser(newUser)
           .then((res) => {
-            console.log(res);
-            let newUser = { ...props.context.user };
-            newUser.allOrders.push(res._id);
-            apihandler
-              .editUser(newUser)
-              .then((res) => props.context.setUser(res))
-              .catch((error) => console.log(error));
+            // After updating user in DB, we update user's context
+            props.context.setUser(newUser);
           })
           .catch((error) => console.log(error));
-      } else if (props.context.user.allOrders[0]) {
-        let copyOfLastBasket = { ...props.context.user.allOrders[0] };
-        console.log(copyOfLastBasket);
-        let ternary = !copyOfLastBasket.basket.includes(tree._id)
-          ? copyOfLastBasket.basket.push(tree._id)
-          : "";
-        copyOfLastBasket.totalPrice += tree.price;
-        apihandler
-          .editOrder(props.context.user.allOrders[0]._id, copyOfLastBasket)
-          .then()
-          .catch((error) => console.log(error));
-      }
-      // else if (props.context.user.allOrders[0].isCompleted) {
-      // }
-    }
+      })
+      .catch((error) => console.log(error));
   }
 
-  console.log(props.context);
+  // EDITING/UPDATING AN ORDER
+  function editOrder() {
+    let copyOfLastBasket = props.context.user.allOrders[0];
+
+    if (
+      copyOfLastBasket.basket &&
+      !copyOfLastBasket.basket.includes(tree._id)
+    ) {
+      copyOfLastBasket.basket.push(tree._id);
+      copyOfLastBasket.totalPrice += tree.price;
+    }
+    apihandler
+      .editOrder(props.context.user.allOrders[0]._id, copyOfLastBasket)
+      .then((res) => props.context.setBasket(res))
+      .catch((error) => console.log(error));
+  }
+
   return (
     <div>
       <div style={{ border: "3px solid black", display: "flex" }}>
@@ -74,8 +86,28 @@ const OneTree = (props) => {
           </h3>
           <p>{tree.description}</p>
           <h2>{tree.price} €</h2>
-          {props.context.user ? (
-            <button onClick={handleOrder}>Add {tree.name} to cart</button>
+          {/* IF THIS ITEM HAS BEEN ADDED TO THE CURRENT CART AND THE USER'S CONTEXT BASKET CONTAINS THIS ITEM */}
+          {/* WE SHOW "ADDED TO CART" LABEL */}
+          {/* ELSE IF USER CONTEXT EXISTS AND THIS ITEM HAS NOT BEEN ADDED TO CART */}
+          {/* WE THEN RENDER A BUTTON THAT IS LINKED TO CREATING AN ORDER OR EDITING
+          AN ORDER DEPENDING ON IF A CART ALREADY EXISTS IF THERE IS NO USER
+          CONTEXT, THEN THE USER MUST SIGN IN FIRST BEFORE CONTINUEING */}
+          {addedToCart ||
+          (props.context.user &&
+            props.context.user.allOrders[0] &&
+            props.context.user.allOrders[0].basket.includes(
+              props.match.params.id
+            )) ? (
+            <div>
+              {" "}
+              <FontAwesomeIcon icon={faCheckCircle} /> Added to cart{" "}
+            </div>
+          ) : props.context.user ? (
+            props.context.user.allOrders[0] ? (
+              <button onClick={editOrder}>Add {tree.name} to cart</button>
+            ) : (
+              <button onClick={createOrder}>Add {tree.name} to cart</button>
+            )
           ) : (
             <a href="/account">To create an order, please Sign in first</a>
           )}
@@ -92,4 +124,4 @@ const OneTree = (props) => {
   );
 };
 
-export default withUser(OneTree);
+export default withRouter(withUser(OneTree));

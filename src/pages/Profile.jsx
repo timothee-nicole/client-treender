@@ -5,93 +5,97 @@ import { faEdit, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../components/auth/UserContext";
 import apihandler from "../api/apihandler";
 
+// Profile page to allow user to change certain lines of data in his/her account
+// Instead of using the same form for CREATE and rendering it with user data in the componentDidMount(), we decided to
+// a table on which each line could be rendered dynamically and the user information was more accessible to READ/EDIT.
+
 export class Profile extends Component {
   static contextType = UserContext;
   state = {
-    updatedValues: {},
-    isUpdating: {},
+    userValues: {},
+    valuesToUpdate: {},
   };
 
   componentDidMount() {
-    this.setState({ updatedValues: this.context.user });
+    this.setState({ userValues: this.context.user });
   }
 
   handleChange = (e) => {
-    // console.log(e.target.name);
-    let newUpdatedValues = { ...this.state.updatedValues };
-    newUpdatedValues[e.target.name] = e.target.value;
-    this.setState({ updatedValues: newUpdatedValues });
+    let newuserValues = { ...this.state.userValues };
+    newuserValues[e.target.name] = e.target.value;
+    this.setState({ userValues: newuserValues });
   };
 
+  // FUNCTION to edit lines of user value
   handleEdit = (elem) => {
-    let isNewUpdating = { ...this.state.isUpdating };
-    !isNewUpdating[elem]
-      ? (isNewUpdating[elem] = true)
-      : (isNewUpdating[elem] = false);
-    this.setState({ isUpdating: isNewUpdating });
+    let updatedValues = { ...this.state.valuesToUpdate };
+    !updatedValues[elem]
+      ? (updatedValues[elem] = true)
+      : (updatedValues[elem] = false);
+    this.setState({ valuesToUpdate: updatedValues });
   };
 
+  // FUNCTION to confirm and update lines of user value
   handleConfirm = (elem) => {
-    let isNewUpdating = { ...this.state.isUpdating };
-    !isNewUpdating[elem]
-      ? (isNewUpdating[elem] = true)
-      : (isNewUpdating[elem] = false);
-    this.setState({ isUpdating: isNewUpdating });
-    this.context.setUser(this.state.updatedValues);
+    let updatedValues = { ...this.state.valuesToUpdate };
+    !updatedValues[elem]
+      ? (updatedValues[elem] = true)
+      : (updatedValues[elem] = false);
+    this.setState({ valuesToUpdate: updatedValues });
+    this.context.setUser(this.state.userValues);
     apihandler
-      .editUser(this.state.updatedValues)
+      .editUser(this.state.userValues)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
 
   render() {
-    // console.log(this.context.user);
-    // console.log(this.state.updatedValues);
-
     return (
       <div>
         <h1>Profile Page</h1>
         <Table striped bordered hover size="sm">
           <tbody>
-            {Object.keys(this.context.user).map((elem) =>
-              elem === "isAdmin" ||
-              elem === "agree" ||
-              elem === "_id" ||
-              elem === "profilePicture" ||
-              elem === "__v" ||
-              elem === "address" ||
-              elem === "allOrders" ||
-              elem === "isNL" ? (
-                ""
-              ) : (
-                <tr>
-                  <td>{elem}</td>
-                  <td>
-                    {this.state.isUpdating[elem] ? (
-                      <form>
-                        <input
-                          name={elem}
-                          type="text"
-                          value={this.state.updatedValues[elem]}
-                          onChange={this.handleChange}
-                        />
-                      </form>
+            {this.context.user &&
+              Object.keys(this.context.user).map((elem) =>
+                // If elem is equal to this, then don't display this on our profile edit page.
+                elem === "isAdmin" ||
+                elem === "agree" ||
+                elem === "_id" ||
+                elem === "profilePicture" ||
+                elem === "__v" ||
+                elem === "address" ||
+                elem === "allOrders" ||
+                elem === "isNL" ? (
+                  ""
+                ) : (
+                  <tr>
+                    <td>{elem}</td>
+                    <td>
+                      {this.state.valuesToUpdate[elem] ? (
+                        <form>
+                          <input
+                            name={elem}
+                            type="text"
+                            value={this.state.userValues[elem]}
+                            onChange={this.handleChange}
+                          />
+                        </form>
+                      ) : (
+                        `${this.state.userValues[elem]}`
+                      )}
+                    </td>
+                    {this.state.valuesToUpdate[elem] ? (
+                      <td onClick={() => this.handleConfirm(elem)}>
+                        <FontAwesomeIcon icon={faCheckCircle} />
+                      </td>
                     ) : (
-                      `${this.state.updatedValues[elem]}`
+                      <td onClick={() => this.handleEdit(elem)}>
+                        <FontAwesomeIcon icon={faEdit} />
+                      </td>
                     )}
-                  </td>
-                  {this.state.isUpdating[elem] ? (
-                    <td onClick={() => this.handleConfirm(elem)}>
-                      <FontAwesomeIcon icon={faCheckCircle} />
-                    </td>
-                  ) : (
-                    <td onClick={() => this.handleEdit(elem)}>
-                      <FontAwesomeIcon icon={faEdit} />
-                    </td>
-                  )}
-                </tr>
-              )
-            )}
+                  </tr>
+                )
+              )}
           </tbody>
         </Table>
       </div>

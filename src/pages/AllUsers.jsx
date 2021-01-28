@@ -20,7 +20,7 @@ const AllUsers = () => {
     return (
         <div>
             
-        </div>
+         </div>
     )
 }
 

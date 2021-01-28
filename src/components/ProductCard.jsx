@@ -1,6 +1,9 @@
 import React from "react";
 import { Card, ListGroupItem, ListGroup } from "react-bootstrap";
 
+// This component renders the identical card of each tree on the products page
+// THis view shows limited information about the tree that is available on the single view page
+
 const ProductCard = (props) => {
   const treeDetails = props.tree;
   return (

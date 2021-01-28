@@ -11,12 +11,14 @@ import OneTree from "./pages/OneTree";
 import Account from "./pages/Account";
 import AllUsers from "./pages/AllUsers";
 import Profile from "./pages/Profile";
+import Cart from "./pages/Cart.jsx";
 
 function App() {
   return (
     <div className="App">
       <NavMain />
       <Switch>
+        {/* Account route sends you to SIGN IN or SIGN UP page depending on context */}
         <Route exact path="/account" component={Account} />
         <Route exact path="/products" component={Products} />
         <Route exact path="/product/:id" component={OneTree} />
@@ -24,7 +26,9 @@ function App() {
         <ProtectedAdminRoute exact path="/:id/edit" component={EditTree} />
         <ProtectedAdminRoute exact path="/all-tree" component={AllTrees} />
         <ProtectedAdminRoute exact path="/all-users" component={AllUsers} />
-        <ProtectedAdminRoute exact path="/profile" component={Profile} />
+        {/* Protected Route wrapper does not seem to work on this route!!! 27/01/2021 */}
+        <Route exact path="/profile" component={Profile} />
+        <ProtectedAdminRoute exact path="/cart" component={Cart} />
       </Switch>
     </div>
   );
