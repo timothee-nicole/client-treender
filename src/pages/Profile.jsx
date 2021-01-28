@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../components/auth/UserContext";
 import apihandler from "../api/apihandler";
+import withUser from "../components/auth/withUser";
 
 // Profile page to allow user to change certain lines of data in his/her account
 // Instead of using the same form for CREATE and rendering it with user data in the componentDidMount(), we decided to
@@ -11,13 +12,21 @@ import apihandler from "../api/apihandler";
 
 export class Profile extends Component {
   static contextType = UserContext;
+
   state = {
-    userValues: {},
+    userValues: null,
     valuesToUpdate: {},
   };
 
-  componentDidMount() {
-    this.setState({ userValues: this.context.user });
+  // componentDidMount() {
+  //   console.log(this.state.userValues);
+  //   this.setState({ userValues: this.props.context.user });
+  // }
+
+  componentDidUpdate() {
+    if (this.context.user && !this.state.userValues) {
+      this.setState({ userValues: this.context.user });
+    }
   }
 
   handleChange = (e) => {
@@ -50,12 +59,14 @@ export class Profile extends Component {
   };
 
   render() {
+    console.log("USER CONTEXT", this.context.user);
+    console.log(this.state.userValues);
     return (
       <div>
         <h1>Profile Page</h1>
         <Table striped bordered hover size="sm">
           <tbody>
-            {this.context.user &&
+            {this.context.user !== null &&
               Object.keys(this.context.user).map((elem) =>
                 // If elem is equal to this, then don't display this on our profile edit page.
                 elem === "isAdmin" ||
@@ -76,7 +87,7 @@ export class Profile extends Component {
                           <input
                             name={elem}
                             type="text"
-                            value={this.state.userValues[elem]}
+                            value={this.state.userValues[`${elem}`]}
                             onChange={this.handleChange}
                           />
                         </form>
@@ -103,4 +114,4 @@ export class Profile extends Component {
   }
 }
 
-export default Profile;
+export default withUser(Profile);
