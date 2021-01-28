@@ -12,7 +12,9 @@ import apihandler from "../api/apihandler";
 export class Profile extends Component {
   static contextType = UserContext;
   state = {
-    userValues: {},
+    userValues: {
+
+    },
     valuesToUpdate: {},
   };
 
@@ -50,6 +52,7 @@ export class Profile extends Component {
   };
 
   render() {
+    console.log(this.context.user);
     return (
       <div>
         <h1>Profile Page</h1>
