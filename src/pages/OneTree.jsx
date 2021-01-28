@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 // import Calendar from 'rc-year-calendar'; /!\ NE PAS SUPPRIMER /!\
 
+// This component renders the single view page of a selected tree
+// This view shows more information about the tree that is not visible on products page card.
+
 const OneTree = (props) => {
   const [tree, setTree] = useState({});
   const [isLoading, setLoading] = useState(true);
@@ -13,6 +16,7 @@ const OneTree = (props) => {
 
   useEffect(() => {
     if (isLoading) {
+      // GET selected tree details by calling API Handler and then renders data
       apihandler
         .getOneTree(`/api/tree/${props.match.params.id}`)
         .then((data) => {
@@ -24,6 +28,9 @@ const OneTree = (props) => {
         .catch((err) => console.log(err));
     }
   }, [isLoading, props.match.params.id, tree]);
+
+  // DEPENDING ON IF THIS IS THE FIRST ITEM TO BE ADDED TO CART, WE EITHER CREATE A NEW ORDER AND ADD THIS ITEM TO IT.
+  // OR WE EDIT A CURRENT CART BY ADDING THIS ITEM TO IT.
 
   // CREATING A NEW ORDER
   function createOrder() {
@@ -50,6 +57,8 @@ const OneTree = (props) => {
       })
       .catch((error) => console.log(error));
   }
+
+  // EDITING/UPDATING AN ORDER
   function editOrder() {
     let copyOfLastBasket = props.context.user.allOrders[0];
 
@@ -77,6 +86,12 @@ const OneTree = (props) => {
           </h3>
           <p>{tree.description}</p>
           <h2>{tree.price} €</h2>
+          {/* IF THIS ITEM HAS BEEN ADDED TO THE CURRENT CART AND THE USER'S CONTEXT BASKET CONTAINS THIS ITEM */}
+          {/* WE SHOW "ADDED TO CART" LABEL */}
+          {/* ELSE IF USER CONTEXT EXISTS AND THIS ITEM HAS NOT BEEN ADDED TO CART */}
+          {/* WE THEN RENDER A BUTTON THAT IS LINKED TO CREATING AN ORDER OR EDITING
+          AN ORDER DEPENDING ON IF A CART ALREADY EXISTS IF THERE IS NO USER
+          CONTEXT, THEN THE USER MUST SIGN IN FIRST BEFORE CONTINUEING */}
           {addedToCart ||
           (props.context.user &&
             props.context.user.allOrders[0] &&

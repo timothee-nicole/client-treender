@@ -12,38 +12,39 @@ import apihandler from "../api/apihandler";
 export class Profile extends Component {
   static contextType = UserContext;
   state = {
-    updatedValues: {},
-    isUpdating: {},
+    userValues: {},
+    valuesToUpdate: {},
   };
 
   componentDidMount() {
-    this.setState({ updatedValues: this.context.user });
+    this.setState({ userValues: this.context.user });
   }
 
   handleChange = (e) => {
-    let newUpdatedValues = { ...this.state.updatedValues };
-    newUpdatedValues[e.target.name] = e.target.value;
-    this.setState({ updatedValues: newUpdatedValues });
+    let newuserValues = { ...this.state.userValues };
+    newuserValues[e.target.name] = e.target.value;
+    this.setState({ userValues: newuserValues });
   };
 
-  // FUNCTION
+  // FUNCTION to edit lines of user value
   handleEdit = (elem) => {
-    let isNewUpdating = { ...this.state.isUpdating };
-    !isNewUpdating[elem]
-      ? (isNewUpdating[elem] = true)
-      : (isNewUpdating[elem] = false);
-    this.setState({ isUpdating: isNewUpdating });
+    let updatedValues = { ...this.state.valuesToUpdate };
+    !updatedValues[elem]
+      ? (updatedValues[elem] = true)
+      : (updatedValues[elem] = false);
+    this.setState({ valuesToUpdate: updatedValues });
   };
 
+  // FUNCTION to confirm and update lines of user value
   handleConfirm = (elem) => {
-    let isNewUpdating = { ...this.state.isUpdating };
-    !isNewUpdating[elem]
-      ? (isNewUpdating[elem] = true)
-      : (isNewUpdating[elem] = false);
-    this.setState({ isUpdating: isNewUpdating });
-    this.context.setUser(this.state.updatedValues);
+    let updatedValues = { ...this.state.valuesToUpdate };
+    !updatedValues[elem]
+      ? (updatedValues[elem] = true)
+      : (updatedValues[elem] = false);
+    this.setState({ valuesToUpdate: updatedValues });
+    this.context.setUser(this.state.userValues);
     apihandler
-      .editUser(this.state.updatedValues)
+      .editUser(this.state.userValues)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -70,20 +71,20 @@ export class Profile extends Component {
                   <tr>
                     <td>{elem}</td>
                     <td>
-                      {this.state.isUpdating[elem] ? (
+                      {this.state.valuesToUpdate[elem] ? (
                         <form>
                           <input
                             name={elem}
                             type="text"
-                            value={this.state.updatedValues[elem]}
+                            value={this.state.userValues[elem]}
                             onChange={this.handleChange}
                           />
                         </form>
                       ) : (
-                        `${this.state.updatedValues[elem]}`
+                        `${this.state.userValues[elem]}`
                       )}
                     </td>
-                    {this.state.isUpdating[elem] ? (
+                    {this.state.valuesToUpdate[elem] ? (
                       <td onClick={() => this.handleConfirm(elem)}>
                         <FontAwesomeIcon icon={faCheckCircle} />
                       </td>

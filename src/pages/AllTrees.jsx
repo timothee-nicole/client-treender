@@ -35,7 +35,9 @@ const AllTrees = (props) => {
 
   return (
     <div>
+      {/* Link to send you to a form to create a tree and add it to tree DB */}
       <a href="/create-tree">Create Tree</a>
+      {/* Renders all trees dynamically from tree DB followed by the options of EDIT or DELETE tree */}
       {trees
         ? trees.map((elem, i) => {
             return (

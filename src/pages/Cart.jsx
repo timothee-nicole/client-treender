@@ -6,13 +6,22 @@ import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
+// This class component renders the user's current cart/basket
+// The "editing" process in a simple DELETE button to remove item from cart
+// From this page, the user has 3 options:
+// 1. DELETE his entire cart (which sets cart quantity to ZERO and takes him back to home page)
+// 2. VIEW/EDIT his cart by removing items from list followed by a button to continue his shopping on home page.
+// 3. COMPLETE order by checking out which will bring him to the payment transaction page (ie. Stripe) ---more to come
+
 class Cart extends React.Component {
   static contextType = UserContext;
   state = {
     order: null,
     checkout: false,
   };
+
   componentDidMount() {
+    // GET current basket from DB using API Handler and render all items in this cart
     apihandler
       .oneOrder(this.context.user.allOrders[0]._id)
       .then((res) => this.setState({ order: res }))
@@ -23,6 +32,7 @@ class Cart extends React.Component {
     this.setState({ checkout: !this.state.checkout });
   };
 
+  // FUNCTION to delete ONE item from the user's cart
   handleDeleteItem = (targetProduct) => {
     let copyOrder = { ...this.state.order };
     console.log(copyOrder);
@@ -38,6 +48,7 @@ class Cart extends React.Component {
       .catch((error) => console.log(error));
   };
 
+  // FUNCTION to delete user's cart (Fully)
   handleDeleteCart = () => {};
 
   render() {

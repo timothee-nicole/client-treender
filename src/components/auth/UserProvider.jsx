@@ -53,6 +53,7 @@ class UserProvider extends Component {
   };
 
   render() {
+    // "authValues" encompasses the current state of our user throughout the app and sends it as user's context
     const authValues = {
       user: this.state.user,
       currentBasket: this.state.currentBasket,

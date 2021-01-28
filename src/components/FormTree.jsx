@@ -6,6 +6,9 @@ import { withRouter } from "react-router-dom";
 // Array list of our types of trees
 const treeArr = ["Nordmann", "Epicea", "Nobilis", "Pungens", "Omorika"];
 
+// This renders the tree form which, depending on the props.action that gets passed ( "CREATE" or "EDIT"),
+// will show a blank form or one that contains the current values of the tree
+
 const FormTree = (props) => {
   const [tree, setTree] = useState({});
   const [isLoading, setLoading] = useState(
@@ -22,11 +25,12 @@ const FormTree = (props) => {
   }
 
   useEffect(() => {
+    // We call useEffect() here to get the current tree information if we are editing a tree
+
     if (isLoading && props.action === "edit") {
       apihandler
         .getOneTree(`/api/tree/${props.id}`)
         .then((data) => {
-          console.log("toto");
           setTree((tree) => {
             return (tree = data);
           });
@@ -38,10 +42,13 @@ const FormTree = (props) => {
 
   function handleSubmit(e) {
     e.preventDefault();
+    // We assemble all our values and append them a FormData() whcih we will send to the DB
     const fd = new FormData();
     for (let key in tree) {
       fd.append(key, tree[key]);
     }
+
+    // Depending on the action (CREATE or EDIT), we call the relevant API Handler to send the data to the DB
     if (props.action === "create") {
       apihandler
         .createTree(fd)

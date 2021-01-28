@@ -6,6 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import "../style/product-page.css";
 
+// This component is used for 2 purposes:
+// 1. The price range
+// 2. The height range
+// This helps the user filter his tree search
+
 const useStyles = makeStyles({
   root: {
     width: 300,

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import apiHandler from "../../api/apihandler";
 
+// This component renders our REGISTRATION page which allows the user to sign up to use our features.
+
 class FormUser extends Component {
   state = {
     email: "",
@@ -19,10 +21,13 @@ class FormUser extends Component {
     agree: false,
   };
 
-
   handleChange = (e) => {
     const key = e.target.name;
     const newAddress = { ...this.state.address };
+
+    // We have to dissect our data a little as our address database structure is nested within the user's data.
+    // We have to do the same with our checkboxes which allow the user to choose if they want to be signed up to the NewsLetter;
+    // and that they agree to our Terms & Conditions
 
     if (key === "zipCode" || key === "city" || key === "street") {
       newAddress[key] = e.target.value;
@@ -118,7 +123,11 @@ class FormUser extends Component {
         <Form.Row>
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>City</Form.Label>
-            <Form.Control name="city" onChange={this.handleChange} placeholder="Paris"/>
+            <Form.Control
+              name="city"
+              onChange={this.handleChange}
+              placeholder="Paris"
+            />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
@@ -165,9 +174,12 @@ class FormUser extends Component {
         <Button variant="primary" type="submit">
           Submit
         </Button>
-      
+
         <h5>
-          Already have an account?  <Button onClick={this.props.handleForm} variant="outline-primary">Sign in</Button>
+          Already have an account?{" "}
+          <Button onClick={this.props.handleForm} variant="outline-primary">
+            Sign in
+          </Button>
         </h5>
       </Form>
     );

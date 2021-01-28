@@ -16,7 +16,7 @@ function errorHandler(err) {
 export default {
   service,
 
-  // auth
+  // AUTHENTICATION API HANDLERS
   signup(userInfo) {
     return service
       .post("/api/auth/signup", userInfo)
@@ -45,7 +45,22 @@ export default {
       .catch(errorHandler);
   },
 
-  // Trees
+  // USER-RELATED API HANDLERS > EDIT & DELETE PROFILE
+  editUser(userInfo) {
+    return service
+      .patch(`/api/user/edit`, userInfo)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  getAllUsers() {
+    return service
+      .get("/api/user/all")
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  // TREE-RELATED API HANDLERS
   getAllTrees(endpoint) {
     return service
       .get(endpoint)
@@ -81,7 +96,7 @@ export default {
       .catch(errorHandler);
   },
 
-  // Order
+  // ORDER-RELATED API HANDLERS
   createOrder(orderInfo) {
     return service
       .post("/api/order/create", orderInfo)
@@ -106,21 +121,6 @@ export default {
   editOrder(id, orderInfo) {
     return service
       .patch("/api/order/" + id + "/edit", orderInfo)
-      .then((res) => res.data)
-      .catch(errorHandler);
-  },
-
-  // User > Edit & delete
-  editUser(userInfo) {
-    return service
-      .patch(`/api/user/edit`, userInfo)
-      .then((res) => res.data)
-      .catch(errorHandler);
-  },
-
-  getAllUsers() {
-    return service
-      .get("/api/user/all")
       .then((res) => res.data)
       .catch(errorHandler);
   },

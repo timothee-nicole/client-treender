@@ -33,7 +33,7 @@ const NavMain = (props) => {
   //   if (
   //     basketQuantity === null &&
   //     props.context.user &&
-  //     props.context.user.allOrders[0] 
+  //     props.context.user.allOrders[0]
   //   ) {
   //     apiHandler
   //       .oneOrder(props.context.user.allOrders[0]._id)
@@ -44,6 +44,8 @@ const NavMain = (props) => {
 
   // console.log("FROM NAVMAIN", props.context.user);
 
+  // This NavBar component contains a lot of guards which allow us to show the user the relevant buttons and links.
+  // All this in to allow a better UX
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="primary" variant="light">
@@ -56,6 +58,7 @@ const NavMain = (props) => {
             <Nav.Link href="/products">
               <FontAwesomeIcon icon={faTree} /> Our Products
             </Nav.Link>
+            {/* IF A USER CONTEXT EXISTS AND THIS USER IS AN ADMIN WE SHOW THE FOLLOWING DROPDOWN MENU */}
             {props.context.isLoggedIn && props.context.user.isAdmin && (
               <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/all-tree">
@@ -75,6 +78,7 @@ const NavMain = (props) => {
             )}
           </Nav>
           <Nav>
+            {/* IF A USER CONTEXT EXISTS WE SEND THE USER TO HIS PROFILE PAGE; IF NOT, HE WILL BE REDIRECTED TO SIGNUP/SIGNIN PAGE */}
             {props.context.user ? (
               <Nav.Link href="/profile">
                 <FontAwesomeIcon icon={faUserCircle} /> Profile
@@ -84,7 +88,8 @@ const NavMain = (props) => {
                 <FontAwesomeIcon icon={faUserCircle} /> Account
               </Nav.Link>
             )}
-
+            {/* IF A USER CONTEXT EXISTS AND THIS USER HAS NO ITEMS IN CART WE ONLY SHOW THE CART ICON */}
+            {/* IF THE USER DOES HAVE ITEMS IN THE CART WE SHOW THE CART ICON WITH BADGE INDICATING HOW MANY ITEMS*/}
             {props.context.user && !props.context.user.allOrders[0] ? (
               <Nav.Link eventKey={2} href="/cart">
                 <FontAwesomeIcon icon={faShoppingCart} /> Cart
@@ -104,7 +109,7 @@ const NavMain = (props) => {
                 &nbsp;
               </Nav.Link>
             )}
-
+            {/* IF A USER CONTEXT EXISTS WE SHOW THE LOGOUT BUTTON */}
             {props.context.isLoggedIn && (
               <Nav.Link onClick={handleLogout} style={{ color: "red" }}>
                 <FontAwesomeIcon icon={faPowerOff} /> Logout
