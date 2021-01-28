@@ -23,7 +23,7 @@ class FormSignin extends Component {
       .signin(this.state)
       .then((data) => {
         this.context.setUser(data);
-        this.props.history.push("/profile");
+        this.props.history.goBack();
       })
       .catch((err) => {
         console.log(err);

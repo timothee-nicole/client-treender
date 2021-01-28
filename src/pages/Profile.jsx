@@ -66,8 +66,8 @@ export class Profile extends Component {
         <h1>Profile Page</h1>
         <Table striped bordered hover size="sm">
           <tbody>
-            {this.context.user !== null &&
-              Object.keys(this.context.user).map((elem) =>
+            {this.state.userValues !== null &&
+              Object.keys(this.state.userValues).map((elem) =>
                 // If elem is equal to this, then don't display this on our profile edit page.
                 elem === "isAdmin" ||
                 elem === "agree" ||
@@ -87,7 +87,7 @@ export class Profile extends Component {
                           <input
                             name={elem}
                             type="text"
-                            value={this.state.userValues[`${elem}`]}
+                            value={this.state.userValues[elem]}
                             onChange={this.handleChange}
                           />
                         </form>
