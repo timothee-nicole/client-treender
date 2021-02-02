@@ -45,6 +45,13 @@ export default {
       .catch(errorHandler);
   },
 
+  editPassword(passwordInfo) {
+    return service
+      .patch("/api/auth/edit-password", passwordInfo)
+      .then((res) => res.data)
+      .catch(errorHandler)
+  },
+
   // USER-RELATED API HANDLERS > EDIT & DELETE PROFILE
   editUser(userInfo) {
     return service

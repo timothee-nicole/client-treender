@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import apiHandler from "../../api/apihandler";
+import { withRouter } from "react-router-dom";
 
 // This component renders our REGISTRATION page which allows the user to sign up to use our features.
 
@@ -49,7 +50,9 @@ class FormUser extends Component {
     e.preventDefault();
     apiHandler
       .signup(this.state)
-      .then((data) => console.log(data))
+      .then((db) => {
+        this.props.history.goBack();
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -186,4 +189,4 @@ class FormUser extends Component {
   }
 }
 
-export default FormUser;
+export default withRouter(FormUser);
