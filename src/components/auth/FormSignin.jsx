@@ -4,6 +4,9 @@ import apiHandler from "../../api/apihandler";
 import { UserContext } from "../auth/UserContext";
 import { withRouter } from "react-router-dom";
 
+
+// This component renders the Sign In Form for the user
+
 class FormSignin extends Component {
   static contextType = UserContext;
 
