@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import apiHandler from "../../api/apihandler";
+import Alert from "@material-ui/lab/Alert";
 
 export default class EditPasswordForm extends Component {
   state = {
     lastPassword: "",
     newPassword: "",
+    messageStatus: null,
   };
 
   handleChange = (e) => {
@@ -26,9 +28,11 @@ export default class EditPasswordForm extends Component {
         newPassword: this.state.newPassword,
       })
       .then((db) => {
-        console.log(db);
+        this.setState({ messageStatus: true });
+        setTimeout(() => this.props.passwordStatus(), 4000);
       })
       .catch((err) => {
+        this.setState({ messageStatus: false });
         console.log(err);
       });
   };
@@ -42,6 +46,15 @@ export default class EditPasswordForm extends Component {
           <h3>Enter New Password</h3>
           <input name="newPassword" onChange={this.handleChange}></input>&nbsp;
         </form>
+        <div>
+          {this.state.messageStatus && this.state.messageStatus === true ? (
+            <Alert severity="success">Updated Successfully</Alert>
+          ) : this.state.messageStatus === false ? (
+            <Alert severity="error">...Something went wrong, dude...</Alert>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     );
   }
