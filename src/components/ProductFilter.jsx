@@ -47,8 +47,20 @@ const ProductFilter = (props) => {
     setClick(!clicked);
   };
 
+//   function resetFilter(e) {
+//     console.log("I'M RESETTED");
+//     // setFilteringValues({
+//     //   price: [],
+//     //   height: [],
+//     //   type: [],
+//     // });
+//     // setTreeArrWithFilter(null);
+//     ProductFilter.forceUpdate();
+//   }
+
   return (
     <div>
+      {/* <button onClick={resetFilter}>Reset Filter</button> */}
       <RangeSlider
         name={"price"}
         min={0}
