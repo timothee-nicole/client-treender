@@ -53,6 +53,58 @@ const Products = () => {
     console.log(treeArrwithFilter);
   }
 
+  function applyFilter(e) {
+    let price = filteringValues.price
+    let height = filteringValues.height
+    let type = filteringValues.type
+    e.preventDefault();
+    // PRICE && HEIGHT
+    if (
+      price &&
+      height &&
+      !type
+    ) {
+    } // PRICE && TYPE
+    else if (
+      price &&
+      !height &&
+      type
+    ) {
+    } // ONLY PRICE
+    else if (
+      price &&
+      !height &&
+      !type
+    ) {
+    } // ONLY HEIGHT
+    else if (
+      !price &&
+      !height &&
+      type
+    ) {
+    } // ONLY TYPE
+    else if (
+      !price &&
+      height &&
+      !type
+    ) {
+    } // HEIGHT && TYPE
+    else if (
+      !price &&
+      height &&
+      type
+    ) {
+    } // PRICE && HEIGHT && TYPE
+    else if (
+      price &&
+      height &&
+      type
+    ) {
+    } // NONE
+    else {
+    }
+  }
+
   return (
     <div className="product-page">
       <ProductFilter onFilter={handleValues} />
@@ -68,6 +120,14 @@ const Products = () => {
         ) : (
           <div> Content is loading</div>
         )}
+        {!treeArrwithFilter ? (trees  ? (
+          trees.map((obj, i) => {
+            return <ProductCard tree={obj} key={i} />;
+          })
+        ) : (
+          <div> Content is loading</div>
+        )) : !treeArrwithFilter.length ? "No Result Found" : treeArrwithFilter.map(blablabla)}
+      }
         {}
       </div>
     </div>
