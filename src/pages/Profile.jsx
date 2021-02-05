@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
@@ -6,6 +7,11 @@ import { UserContext } from "../components/auth/UserContext";
 import apihandler from "../api/apihandler";
 import withUser from "../components/auth/withUser";
 import EditPasswordForm from "../components/auth/EditPasswordForm";
+import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
+import transformDate from "../javascript/transformDate";
+import transformPhoneNumber from "../javascript/transformPhoneNumber";
+import transformText from "../javascript/transformText";
 
 // Profile page to allow user to change certain lines of data in his/her account
 // Instead of using the same form for CREATE and rendering it with user data in the componentDidMount(), we decided to
@@ -22,10 +28,6 @@ export class Profile extends Component {
     changePassword: false,
   };
 
-  // componentDidMount() {
-  //   console.log(this.state.userValues);
-  //   this.setState({ userValues: this.props.context.user });
-  // }
   handleChangePassword = () => {
     this.setState({
       changePassword: !this.state.changePassword,
@@ -94,33 +96,16 @@ export class Profile extends Component {
       .catch((err) => console.log(err));
   };
 
-  transformText = (str) => {
-    let strArr = str.split("");
-    let ixArr = null;
-    strArr.forEach((elem, i) => {
-      if (elem.toUpperCase() === elem) {
-        return (ixArr = i);
-      } else return elem;
-    });
-    if (ixArr) {
-      strArr.splice(ixArr, 0, " ");
-    }
-    strArr[0] = strArr[0].toUpperCase();
-    let newStr = strArr.join("");
-    return newStr;
-  };
-  transformPhoneNumber = (str) => {
-    let phoneArr = str.split("");
-    let newArr = phoneArr.map((elem, i) => {
-      if (i !== 0 && i % 2 === 0) {
-        return (elem = "." + elem);
-      } else return elem;
-    });
-    return newArr;
-  };
-
-  transformDate = (date) => {
-    return date.toString().substring(0, 10);
+  // FUNCTION to delete user's account from DB and context
+  handleDelete = (e) => {
+    e.preventDefault();
+    apihandler
+      .deleteUser()
+      .then(() => {
+        this.context.removeUser();
+        this.props.history.push("/");
+      })
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -152,7 +137,7 @@ export class Profile extends Component {
                     ""
                   ) : (
                     <tr key={i}>
-                      <td>{this.transformText(elem)}</td>
+                      <td>{transformText(elem)}</td>
                       <td>
                         {this.state.valuesToUpdate[elem] ? (
                           <form>
@@ -164,9 +149,9 @@ export class Profile extends Component {
                             />
                           </form>
                         ) : elem === "phoneNumber" ? (
-                          this.transformPhoneNumber(this.state.userValues[elem])
+                          transformPhoneNumber(this.state.userValues[elem])
                         ) : elem === "birthDate" ? (
-                          this.transformDate(this.state.userValues[elem])
+                          transformDate(this.state.userValues[elem])
                         ) : (
                           this.state.userValues[elem]
                         )}
@@ -187,7 +172,7 @@ export class Profile extends Component {
                 Object.keys(this.state.userValues.address).map((elem, i) => {
                   return (
                     <tr key={i}>
-                      <td>{this.transformText(elem)}</td>
+                      <td>{transformText(elem)}</td>
                       <td>
                         {this.state.valuesToUpdate.address[elem] ? (
                           <form>
@@ -217,25 +202,27 @@ export class Profile extends Component {
             </tbody>
           </Table>
         )}
-        <div
-          style={{
-            color: "white",
-            backgroundColor: "red",
-            fontWeight: "600",
-            padding: "5px 10px",
-            borderRadius: "10px",
-            width: "fit-content",
-            display: "flex",
-            textAlign: "center",
-            margin: "10px"
-          }}
-          onClick={this.handleChangePassword}
-        >
-          {!this.state.changePassword ? "Edit Password" : "Go Back"}
+        <div>
+          <Button
+            variant="contained"
+            color="default"
+            onClick={this.handleChangePassword}
+          >
+            {!this.state.changePassword ? "Edit Password" : "Go Back"}
+          </Button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={this.handleDelete}
+          >
+            Delete Account
+          </Button>
         </div>
       </div>
     );
   }
 }
 
-export default withUser(Profile);
+export default withRouter(withUser(Profile));

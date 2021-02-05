@@ -60,6 +60,13 @@ export default {
       .catch(errorHandler);
   },
 
+  deleteUser() {
+    return service
+      .delete(`/api/user/delete`)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
   getAllUsers() {
     return service
       .get("/api/user/all")

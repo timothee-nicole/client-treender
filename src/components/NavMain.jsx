@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,26 +24,15 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const NavMain = (props) => {
-  // const [basketQuantity, setBasketQuantity] = useState(null);
-
   function handleLogout() {
-    apiHandler.logOut().then(props.context.removeUser()).catch();
+    apiHandler
+      .logOut()
+      .then(() => {
+        props.history.push("/");
+        props.context.removeUser();
+      })
+      .catch();
   }
-
-  // useEffect(() => {
-  //   if (
-  //     basketQuantity === null &&
-  //     props.context.user &&
-  //     props.context.user.allOrders[0]
-  //   ) {
-  //     apiHandler
-  //       .oneOrder(props.context.user.allOrders[0]._id)
-  //       .then((res) => console.log(res))
-  //       .catch((error) => console.log(error));
-  //   }
-  // }, [basketQuantity]);
-
-  // console.log("FROM NAVMAIN", props.context.user);
 
   // This NavBar component contains a lot of guards which allow us to show the user the relevant buttons and links.
   // All this in to allow a better UX
@@ -122,4 +112,4 @@ const NavMain = (props) => {
   );
 };
 
-export default withUser(NavMain);
+export default withRouter(withUser(NavMain));

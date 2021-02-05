@@ -84,7 +84,7 @@ const OneTree = (props) => {
         <div>
           <h1>{tree.name}</h1>{" "}
           <h3>
-            {tree.height} | {tree.type} | {tree.age}yo
+            {tree.height} cm| {tree.type} | {tree.age} yo
           </h3>
           <p>{tree.description}</p>
           <h2>{tree.price} €</h2>
@@ -103,7 +103,8 @@ const OneTree = (props) => {
             <div>
               {" "}
               <Message info>
-                <FontAwesomeIcon icon={faCheckCircle}/>&nbsp; Added to cart
+                <FontAwesomeIcon icon={faCheckCircle} />
+                &nbsp; Added to cart
               </Message>
               {/* <FontAwesomeIcon icon={faCheckCircle} /> Added to cart{" "} */}
             </div>
