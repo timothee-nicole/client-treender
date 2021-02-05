@@ -4,6 +4,8 @@ import withUser from "../components/auth/withUser";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { Button, Icon } from "semantic-ui-react";
+import { Message } from "semantic-ui-react";
 // import Calendar from 'rc-year-calendar'; /!\ NE PAS SUPPRIMER /!\
 
 // This component renders the single view page of a selected tree
@@ -100,13 +102,34 @@ const OneTree = (props) => {
             )) ? (
             <div>
               {" "}
-              <FontAwesomeIcon icon={faCheckCircle} /> Added to cart{" "}
+              <Message info>
+                <FontAwesomeIcon icon={faCheckCircle}/>&nbsp; Added to cart
+              </Message>
+              {/* <FontAwesomeIcon icon={faCheckCircle} /> Added to cart{" "} */}
             </div>
           ) : props.context.user ? (
             props.context.user.allOrders[0] ? (
-              <button onClick={editOrder}>Add {tree.name} to cart</button>
+              <Button
+                animated="vertical"
+                onClick={editOrder}
+                style={{ width: "200px" }}
+              >
+                <Button.Content hidden>Add {tree.name} to cart</Button.Content>
+                <Button.Content visible>
+                  <Icon name="shop" />
+                </Button.Content>
+              </Button>
             ) : (
-              <button onClick={createOrder}>Add {tree.name} to cart</button>
+              <Button
+                animated="vertical"
+                onClick={createOrder}
+                style={{ width: "200px" }}
+              >
+                <Button.Content hidden>Add {tree.name} to cart</Button.Content>
+                <Button.Content visible>
+                  <Icon name="shop" />
+                </Button.Content>
+              </Button>
             )
           ) : (
             <a href="/account">To create an order, please Sign in first</a>

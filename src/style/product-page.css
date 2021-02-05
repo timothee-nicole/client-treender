@@ -1,9 +1,9 @@
-.hidden {
+.filter-hidden {
     visibility: hidden;
     height: 0px;
     width: 0;
 }
-.visible {
+.filter-visible {
     visibility: visible;
 }
 

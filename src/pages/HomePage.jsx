@@ -14,7 +14,14 @@ const HomePage = () => {
       >
         <div style={{ color: "white", fontSize: "4em" }}>TREENDER</div>
       </div>
-      <div style={{ display: "grid", gridAutoColumns: "200px" }}>
+
+      <div
+        style={{
+          display: "grid",
+          height: "100px",
+          gridAutoColumns: "minmax(33%, auto) 1fr",
+        }}
+      >
         <div>Hello</div>
         <div>Hello</div>
         <div>Hello</div>

@@ -57,14 +57,14 @@ export default function RangeSlider(props) {
         )}
         {/* first letter to uppercase  */}
       </Typography>
-      <div className={clicked ? "visible" : "hidden"}>
+      <div className={clicked ? "filter-visible" : "filter-hidden"}>
         <Slider
           value={value}
           onChange={handleChange}
           valueLabelDisplay="auto"
           aria-labelledby="range-slider"
           getAriaValueText={valuetext}
-          className={clicked ? "visible" : "hidden"}
+          className={clicked ? "filter-visible" : "filter-hidden"}
           step={10}
           min={props.rangeMin}
           max={props.rangeMax}
