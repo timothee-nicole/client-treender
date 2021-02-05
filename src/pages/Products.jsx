@@ -37,8 +37,8 @@ const Products = () => {
     return () => {};
   }, [trees]);
 
-  // FILTERING function that takes the values from [ProductCard.jsx] and [RangeSlider.jsx] to render targeted trees
-  // in real time
+  // FILTERING function that takes the values from [ProductCard.jsx] and [RangeSlider.jsx]
+  // to render targeted trees after applying the filter
   function handleValues(key, value) {
     const newFilter = { ...filteringValues };
     newFilter[key] = value;
@@ -54,14 +54,12 @@ const Products = () => {
 
   function applyFilter(e) {
     e.preventDefault();
-    console.log("TOOGLE BITCH");
     let price = filteringValues.price;
     let height = filteringValues.height;
     let type = filteringValues.type;
     e.preventDefault();
     // PRICE && HEIGHT
     if (price.length && height.length && !type.length) {
-      console.log("I'M IN THE IF");
       setTreeArrWithFilter(
         (elem) =>
           (elem = trees.filter((obj, j) => {
@@ -75,7 +73,6 @@ const Products = () => {
       );
     } // PRICE && TYPE
     else if (price.length && !height.length && type.length) {
-      console.log("I'm in the type if");
       setTreeArrWithFilter(
         (elem) =>
           (elem = trees.filter((obj, j) => {
@@ -104,7 +101,6 @@ const Products = () => {
       );
     } // ONLY TYPE
     else if (!price.length && !height.length && type.length) {
-      console.log("I'm in the type if");
       setTreeArrWithFilter(
         (elem) =>
           (elem = trees.filter((obj, j) => {
@@ -145,9 +141,9 @@ const Products = () => {
 
   return (
     <div className="product-page">
-      <ProductFilter onFilter={handleValues} key={id} />
-      <button onClick={applyFilter}>Apply Filter</button>
-      <button onClick={resetFilter}>Reset Filter</button>
+      <ProductFilter onFilter={handleValues} key={id} applyFilter={applyFilter} resetFilter={resetFilter}/>
+      {/* <button onClick={applyFilter}>Apply Filter</button>
+      <button onClick={resetFilter}>Reset Filter</button> */}
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {!treeArrwithFilter ? (
           trees ? (

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import apiHandler from "../../api/apihandler";
 import Alert from "@material-ui/lab/Alert";
+import Button from "@material-ui/core/Button";
 
 export default class EditPasswordForm extends Component {
   state = {
@@ -40,11 +41,18 @@ export default class EditPasswordForm extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <button>CONFIRM</button>
           <h3>Enter Current Password</h3>
           <input name="lastPassword" onChange={this.handleChange}></input>
           <h3>Enter New Password</h3>
-          <input name="newPassword" onChange={this.handleChange}></input>&nbsp;
+          <input name="newPassword" onChange={this.handleChange}></input>
+          <br></br>
+          <Button
+            variant="outlined"
+            color="primary"
+            style={{ margin: "10px" }}
+          >
+            CONFIRM
+          </Button>
         </form>
         <div>
           {this.state.messageStatus && this.state.messageStatus === true ? (

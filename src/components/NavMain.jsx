@@ -49,7 +49,7 @@ const NavMain = (props) => {
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="primary" variant="light">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img src="../images/logo.png" alt="logo" style={{ width: "50px" }} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

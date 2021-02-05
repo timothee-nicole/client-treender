@@ -227,10 +227,11 @@ export class Profile extends Component {
             width: "fit-content",
             display: "flex",
             textAlign: "center",
+            margin: "10px"
           }}
           onClick={this.handleChangePassword}
         >
-          Edit Password
+          {!this.state.changePassword ? "Edit Password" : "Go Back"}
         </div>
       </div>
     );
