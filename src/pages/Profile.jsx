@@ -122,12 +122,8 @@ export class Profile extends Component {
   transformDate = (date) => {
     return date.toString().substring(0, 10);
   };
-  // 1 2 . 3 4 . 5
 
   render() {
-    console.log("state =>>", this.state);
-    // console.log("USER CONTEXT", this.context.user);
-    console.log(this.state.userValues && this.state.userValues.address.street);
     return (
       <div
         style={{
@@ -138,7 +134,7 @@ export class Profile extends Component {
       >
         <h1>Profile Page</h1>
         {this.state.changePassword ? (
-          <EditPasswordForm />
+          <EditPasswordForm passwordStatus={this.handleChangePassword} />
         ) : (
           <Table striped bordered hover size="sm">
             <tbody>

@@ -13,7 +13,6 @@ import apiHandler from "../api/apihandler";
 // ALL filters operate together.
 // The user can use all 3 filters to target their tree search.
 
-let treeArrwithFilter = [];
 const Products = () => {
   const [trees, setTrees] = React.useState(null);
   const [filteringValues, setFilteringValues] = React.useState({
@@ -21,6 +20,10 @@ const Products = () => {
     height: [],
     type: [],
   });
+  const [treeArrwithFilter, setTreeArrWithFilter] = React.useState(null);
+  const [id, setId] = React.useState(1);
+
+  console.log(filteringValues);
 
   useEffect(() => {
     if (trees === null) {
@@ -42,83 +45,125 @@ const Products = () => {
     setFilteringValues((filteringValues) => {
       return (filteringValues = newFilter);
     });
-    console.log(filteringValues);
-    treeArrwithFilter = trees.filter((obj, j) => {
-      if (key === "price" || key === "height") {
-        return obj[key] >= newFilter[key][0] && obj[key] <= newFilter[key][1];
-      } else {
-        return newFilter[key].includes(obj[key]);
-      }
-    });
-    console.log(treeArrwithFilter);
+  }
+
+  function resetFilter(e) {
+    setId(id + 1);
+    setTreeArrWithFilter(trees);
   }
 
   function applyFilter(e) {
-    let price = filteringValues.price
-    let height = filteringValues.height
-    let type = filteringValues.type
+    e.preventDefault();
+    console.log("TOOGLE BITCH");
+    let price = filteringValues.price;
+    let height = filteringValues.height;
+    let type = filteringValues.type;
     e.preventDefault();
     // PRICE && HEIGHT
-    if (
-      price &&
-      height &&
-      !type
-    ) {
+    if (price.length && height.length && !type.length) {
+      console.log("I'M IN THE IF");
+      setTreeArrWithFilter(
+        (elem) =>
+          (elem = trees.filter((obj, j) => {
+            return (
+              obj["price"] >= price[0] &&
+              obj["price"] <= price[1] &&
+              obj["height"] >= height[0] &&
+              obj["height"] <= height[1]
+            );
+          }))
+      );
     } // PRICE && TYPE
-    else if (
-      price &&
-      !height &&
-      type
-    ) {
+    else if (price.length && !height.length && type.length) {
+      console.log("I'm in the type if");
+      setTreeArrWithFilter(
+        (elem) =>
+          (elem = trees.filter((obj, j) => {
+            return (
+              obj["price"] >= price[0] &&
+              obj["price"] <= price[1] &&
+              type.includes(obj["type"])
+            );
+          }))
+      );
     } // ONLY PRICE
-    else if (
-      price &&
-      !height &&
-      !type
-    ) {
+    else if (price.length && !height.length && !type.length) {
+      setTreeArrWithFilter(
+        (elem) =>
+          (elem = trees.filter((obj, j) => {
+            return obj["price"] >= price[0] && obj["price"] <= price[1];
+          }))
+      );
     } // ONLY HEIGHT
-    else if (
-      !price &&
-      !height &&
-      type
-    ) {
+    else if (!price.length && height.length && !type.length) {
+      setTreeArrWithFilter(
+        (elem) =>
+          (elem = trees.filter((obj, j) => {
+            return obj["height"] >= height[0] && obj["height"] <= height[1];
+          }))
+      );
     } // ONLY TYPE
-    else if (
-      !price &&
-      height &&
-      !type
-    ) {
+    else if (!price.length && !height.length && type.length) {
+      console.log("I'm in the type if");
+      setTreeArrWithFilter(
+        (elem) =>
+          (elem = trees.filter((obj, j) => {
+            return type.includes(obj["type"]);
+          }))
+      );
     } // HEIGHT && TYPE
-    else if (
-      !price &&
-      height &&
-      type
-    ) {
+    else if (!price.length && height.length && type.length) {
+      setTreeArrWithFilter(
+        (elem) =>
+          (elem = trees.filter((obj, j) => {
+            return (
+              obj["height"] >= height[0] &&
+              obj["height"] <= height[1] &&
+              type.includes(obj["type"])
+            );
+          }))
+      );
     } // PRICE && HEIGHT && TYPE
-    else if (
-      price &&
-      height &&
-      type
-    ) {
+    else if (price.length && height.length && type.length) {
+      setTreeArrWithFilter(
+        (elem) =>
+          (elem = trees.filter((obj, j) => {
+            return (
+              obj["price"] >= price[0] &&
+              obj["price"] <= price[1] &&
+              obj["height"] >= height[0] &&
+              obj["height"] <= height[1] &&
+              type.includes(obj["type"])
+            );
+          }))
+      );
     } // NONE
     else {
+      setTreeArrWithFilter(trees);
     }
+  }
   }
 
   return (
     <div className="product-page">
-      <ProductFilter onFilter={handleValues} />
+      <ProductFilter onFilter={handleValues} key={id} />
+      <button onClick={applyFilter}>Apply Filter</button>
+      <button onClick={resetFilter}>Reset Filter</button>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {treeArrwithFilter.length ? (
+        {!treeArrwithFilter ? (
+          trees ? (
+            trees.map((obj, i) => {
+              return <ProductCard tree={obj} key={i} />;
+            })
+          ) : (
+            <div> Content is loading</div>
+          )
+        ) : treeArrwithFilter.length > 0 ? (
           treeArrwithFilter.map((obj, i) => {
             return <ProductCard tree={obj} key={i} />;
           })
-        ) : trees ? (
-          trees.map((obj, i) => {
-            return <ProductCard tree={obj} key={i} />;
-          })
         ) : (
-          <div> Content is loading</div>
+          "No Results Found ... "
         )}
         {!treeArrwithFilter ? (trees  ? (
           trees.map((obj, i) => {
