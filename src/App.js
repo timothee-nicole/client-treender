@@ -24,13 +24,13 @@ function App() {
         <Route exact path="/products" component={Products} />
         <Route exact path="/product/:id" component={OneTree} />
         <Route exact path="/profile" component={Profile} />
-        <Route exact path="/" component={HomePage} />
         {/* Protected Route wrapper does not seem to work on this route!!! 27/01/2021 */}
         <ProtectedAdminRoute exact path="/create-tree" component={CreateTree} />
         <ProtectedAdminRoute exact path="/:id/edit" component={EditTree} />
         <ProtectedAdminRoute exact path="/all-tree" component={AllTrees} />
         <ProtectedAdminRoute exact path="/all-users" component={AllUsers} />
-        <ProtectedAdminRoute exact path="/cart" component={Cart} />
+        <Route exact path="/cart" component={Cart} />
+        <Route exact path="/" component={HomePage} />
       </Switch>
     </div>
   );

@@ -20,12 +20,21 @@ class Cart extends React.Component {
     checkout: false,
   };
 
-  componentDidMount() {
-    // GET current basket from DB using API Handler and render all items in this cart
-    apihandler
-      .oneOrder(this.context.user.allOrders[0]._id)
-      .then((res) => this.setState({ order: res }))
-      .catch((error) => console.log(error));
+  // componentDidMount() {
+  //   // GET current basket from DB using API Handler and render all items in this cart
+  //   apihandler
+  //     .oneOrder(this.context.user.allOrders[0]._id)
+  //     .then((res) => this.setState({ order: res }))
+  //     .catch((error) => console.log(error));
+  // }
+
+  componentDidUpdate() {
+    if (this.context.user && !this.state.order) {
+      apihandler
+        .oneOrder(this.context.user.allOrders[0]._id)
+        .then((res) => this.setState({ order: res }))
+        .catch((error) => console.log(error));
+    }
   }
 
   handleCheckout = () => {
@@ -52,7 +61,7 @@ class Cart extends React.Component {
   handleDeleteCart = () => {};
 
   render() {
-    console.log(this.state.order);
+    console.log(this.context.user);
     return (
       <div>
         <h1>YOUR CURRENT CART</h1>
