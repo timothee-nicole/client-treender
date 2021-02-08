@@ -23,7 +23,6 @@ export default class EditPasswordForm extends Component {
   };
 
   handleSubmit = (e) => {
-    console.log("Submitted");
     e.preventDefault();
     apiHandler
       .editPassword({

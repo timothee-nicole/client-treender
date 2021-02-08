@@ -1,10 +1,14 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import apihandler from "../api/apihandler";
 import withUser from "../components/auth/withUser";
 import { UserContext } from "../components/auth/UserContext";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Confirm } from "semantic-ui-react";
 
 // This class component renders the user's current cart/basket
 // The "editing" process in a simple DELETE button to remove item from cart
@@ -19,16 +23,8 @@ class Cart extends React.Component {
     order: null,
     checkout: false,
   };
-
-  // componentDidMount() {
-  //   // GET current basket from DB using API Handler and render all items in this cart
-  //   apihandler
-  //     .oneOrder(this.context.user.allOrders[0]._id)
-  //     .then((res) => this.setState({ order: res }))
-  //     .catch((error) => console.log(error));
-  // }
-
-  componentDidUpdate() {
+  
+  componentDidMount() {
     if (this.context.user && !this.state.order) {
       apihandler
         .oneOrder(this.context.user.allOrders[0]._id)
@@ -36,6 +32,9 @@ class Cart extends React.Component {
         .catch((error) => console.log(error));
     }
   }
+
+  open = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   handleCheckout = () => {
     this.setState({ checkout: !this.state.checkout });
@@ -58,10 +57,20 @@ class Cart extends React.Component {
   };
 
   // FUNCTION to delete user's cart (Fully)
-  handleDeleteCart = () => {};
+  handleDeleteCart = (e) => {
+    e.preventDefault();
+    // APIHANDLER FOR ORDER DELETE
+    apihandler
+      .deleteOrder(this.context.user.allOrders[0]._id)
+      .then((res) => {
+        this.setState({ order: null });
+        this.props.history.push("/");
+      })
+      .catch((error) => console.log(error));
+  };
 
   render() {
-    console.log(this.context.user);
+    console.log(this.props);
     return (
       <div>
         <h1>YOUR CURRENT CART</h1>
@@ -104,13 +113,48 @@ class Cart extends React.Component {
             </tr>
           </tbody>
         </Table>
-        <button onClick={this.handleCheckout}>CHECK OUT</button>
+        <Button
+          variant="contained"
+          color="default"
+          onClick={this.handleCheckout}
+        >
+          CHECK OUT
+        </Button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/products">CONTINUE SHOPPING</a>
-        <button onClick={this.handleDeleteCart}>DELETE ALL ITEMS</button>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <a
+            href="/products"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            CONTINUE SHOPPING
+          </a>
+        </Button>{" "}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<DeleteIcon />}
+          onClick={this.open}
+        >
+          DELETE ALL ITEMS
+        </Button>
+        <Confirm
+          open={this.state.open}
+          onCancel={this.close}
+          onConfirm={this.handleDeleteCart}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
       </div>
     );
   }
 }
 
-export default withUser(Cart);
+export default withRouter(withUser(Cart));

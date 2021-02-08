@@ -49,7 +49,7 @@ export default {
     return service
       .patch("/api/auth/edit-password", passwordInfo)
       .then((res) => res.data)
-      .catch(errorHandler)
+      .catch(errorHandler);
   },
 
   // USER-RELATED API HANDLERS > EDIT & DELETE PROFILE
@@ -135,6 +135,13 @@ export default {
   editOrder(id, orderInfo) {
     return service
       .patch("/api/order/" + id + "/edit", orderInfo)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  deleteOrder(id) {
+    return service
+      .delete(`api/order/${id}/delete`)
       .then((res) => res.data)
       .catch(errorHandler);
   },

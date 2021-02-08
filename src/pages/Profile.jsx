@@ -12,6 +12,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import transformDate from "../javascript/transformDate";
 import transformPhoneNumber from "../javascript/transformPhoneNumber";
 import transformText from "../javascript/transformText";
+import { Confirm } from "semantic-ui-react";
 
 // Profile page to allow user to change certain lines of data in his/her account
 // Instead of using the same form for CREATE and rendering it with user data in the componentDidMount(), we decided to
@@ -27,6 +28,9 @@ export class Profile extends Component {
     },
     changePassword: false,
   };
+
+  open = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   handleChangePassword = () => {
     this.setState({
@@ -215,10 +219,15 @@ export class Profile extends Component {
             variant="contained"
             color="secondary"
             startIcon={<DeleteIcon />}
-            onClick={this.handleDelete}
+            onClick={this.open}
           >
             Delete Account
           </Button>
+          <Confirm
+            open={this.state.open}
+            onCancel={this.close}
+            onConfirm={this.handleDelete}
+          />
         </div>
       </div>
     );

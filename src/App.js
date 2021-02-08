@@ -11,8 +11,9 @@ import OneTree from "./pages/OneTree";
 import Account from "./pages/Account";
 import AllUsers from "./pages/AllUsers";
 import Profile from "./pages/Profile";
-import Cart from "./pages/Cart.jsx";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
+import HasBasket from "./pages/HasBasket.jsx";
 
 function App() {
   return (
@@ -29,9 +30,11 @@ function App() {
         <ProtectedAdminRoute exact path="/:id/edit" component={EditTree} />
         <ProtectedAdminRoute exact path="/all-tree" component={AllTrees} />
         <ProtectedAdminRoute exact path="/all-users" component={AllUsers} />
-        <Route exact path="/cart" component={Cart} />
+        <Route exact path="/cart" component={HasBasket} />
+        {/* <Route exact path="/hasBasket" component={Cart} /> */}
         <Route exact path="/" component={HomePage} />
       </Switch>
+      <Footer />
     </div>
   );
 }

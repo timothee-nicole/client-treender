@@ -5,8 +5,10 @@
 }
 .filter-visible {
     visibility: visible;
+    
 }
 
 .product-page {
     display: flex;
+    
 }

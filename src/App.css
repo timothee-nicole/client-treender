@@ -1,5 +1,4 @@
-
-/* @import './style/custom.css'; */
+/* @import "./style/custom.css"; */
 
 .App {
   text-align: center;
@@ -20,3 +19,20 @@
   color: #61dafb;
 }
 
+.home-image {
+  background-image: url("./images/pine-tree.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-about {
+  display: grid;
+  background-color: rgb(28, 68, 28);
+  height: 50vh;
+  place-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(33%, 1fr));
+}
