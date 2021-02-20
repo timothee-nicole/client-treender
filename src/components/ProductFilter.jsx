@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@material-ui/core/Button";
+import { Confirm } from "semantic-ui-react";
 
 // This component renders our 3 filter criteria
 // 1. THE PRICE RANGE
@@ -27,6 +28,8 @@ const useStyles = makeStyles({
 
 const ProductFilter = (props) => {
   const [clicked, setClick] = React.useState(false);
+  const [open, setOpen] = React.useState(null);
+
   const classes = useStyles();
 
   function handleChange(e) {
@@ -42,6 +45,10 @@ const ProductFilter = (props) => {
 
     // console.log(filteredTreeArr)
     props.onFilter("type", filteredTreeArr);
+  }
+
+  function isOpen() {
+    setOpen((elem) => !elem);
   }
 
   const handleClick = () => {
@@ -101,9 +108,10 @@ const ProductFilter = (props) => {
         APPLY FILTER
       </Button>
       &nbsp;
-      <Button variant="contained" color="secondary" onClick={props.resetFilter}>
+      <Button variant="contained" color="secondary" onClick={isOpen}>
         RESET FILTER
       </Button>
+      <Confirm open={open} onCancel={isOpen} onConfirm={props.resetFilter} />
     </div>
   );
 };
