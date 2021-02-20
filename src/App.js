@@ -12,6 +12,7 @@ import Account from "./pages/Account";
 import AllUsers from "./pages/AllUsers";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart.jsx";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/products" component={Products} />
         <Route exact path="/product/:id" component={OneTree} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/" component={HomePage} />
         {/* Protected Route wrapper does not seem to work on this route!!! 27/01/2021 */}
         <ProtectedAdminRoute exact path="/create-tree" component={CreateTree} />
         <ProtectedAdminRoute exact path="/:id/edit" component={EditTree} />

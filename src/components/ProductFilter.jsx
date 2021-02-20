@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "@material-ui/core/Button";
 
 // This component renders our 3 filter criteria
 // 1. THE PRICE RANGE
@@ -47,20 +48,8 @@ const ProductFilter = (props) => {
     setClick(!clicked);
   };
 
-//   function resetFilter(e) {
-//     console.log("I'M RESETTED");
-//     // setFilteringValues({
-//     //   price: [],
-//     //   height: [],
-//     //   type: [],
-//     // });
-//     // setTreeArrWithFilter(null);
-//     ProductFilter.forceUpdate();
-//   }
-
   return (
     <div>
-      {/* <button onClick={resetFilter}>Reset Filter</button> */}
       <RangeSlider
         name={"price"}
         min={0}
@@ -77,7 +66,6 @@ const ProductFilter = (props) => {
         rangeMax={250}
         onFilter={props.onFilter}
       />
-
       <form className={classes.root}>
         <Typography onClick={handleClick}>
           Species &nbsp;{" "}
@@ -88,7 +76,7 @@ const ProductFilter = (props) => {
           )}
         </Typography>
         <div
-          className={clicked ? "visible" : "hidden"}
+          className={clicked ? "filter-visible" : "filter-hidden"}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -109,6 +97,13 @@ const ProductFilter = (props) => {
           ))}
         </div>
       </form>
+      <Button variant="contained" color="primary" onClick={props.applyFilter}>
+        APPLY FILTER
+      </Button>
+      &nbsp;
+      <Button variant="contained" color="secondary" onClick={props.resetFilter}>
+        RESET FILTER
+      </Button>
     </div>
   );
 };
