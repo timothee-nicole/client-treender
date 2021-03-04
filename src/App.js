@@ -1,5 +1,6 @@
 import "./App.css";
 import "./App.scss";
+import "./style/tailwind.css"
 import { Route, Switch } from "react-router-dom";
 import NavMain from "./components/NavMain";
 import Products from "./pages/Products";
@@ -11,7 +12,6 @@ import OneTree from "./pages/OneTree";
 import Account from "./pages/Account";
 import AllUsers from "./pages/AllUsers";
 import Profile from "./pages/Profile";
-import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import HasBasket from "./pages/HasBasket.jsx";
 
@@ -34,7 +34,6 @@ function App() {
         {/* <Route exact path="/hasBasket" component={Cart} /> */}
         <Route exact path="/" component={HomePage} />
       </Switch>
-      <Footer />
     </div>
   );
 }
