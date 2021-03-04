@@ -160,9 +160,10 @@ const Products = () => {
         ) : (
           "No Results Found ... "
         )}
+
       </div>
     </div>
-  );
+  )
 };
 
 export default Products;

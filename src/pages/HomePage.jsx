@@ -19,7 +19,7 @@ const HomePage = () => {
           style={{ height: "85%", width: "85%" }}
           href="/signup"
           header="Register Now!"
-          description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
+          description="vieux ca me manque de coder avec toi, chaud on se refait une petite session ?"
         />
         <Card
           style={{ height: "85%", width: "85%" }}

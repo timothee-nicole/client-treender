@@ -26,7 +26,7 @@ export class Profile extends Component {
     valuesToUpdate: {
       address: {},
     },
-    changePassword: false,
+    changePassword: true,
   };
 
   open = () => this.setState({ open: true });
