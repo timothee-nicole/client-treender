@@ -14,7 +14,7 @@ const AllUsers = () => {
                     setLoading(elem => !loading)
                 })
         }
-    }, [allUsers])
+    }, [allUsers, loading])
 
     console.log(allUsers);
     return (
