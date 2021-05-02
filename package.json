@@ -2,6 +2,10 @@
   "name": "client_sapin",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^12",
+    "npm": "^6"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
